@@ -1,58 +1,8 @@
-# Welcome to your Lovable project
+# Calculadora de Tempo
 
-## Project info
+Uma aplicação web para cálculos de tempo, desenvolvida com React, TypeScript e Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/b8949501-2a5f-49e9-9ad3-2892c25fead5
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/b8949501-2a5f-49e9-9ad3-2892c25fead5) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
+## Tecnologias Utilizadas
 
 - Vite
 - TypeScript
@@ -60,14 +10,50 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
+## Como Executar o Projeto
 
-Simply open [Lovable](https://lovable.dev/projects/b8949501-2a5f-49e9-9ad3-2892c25fead5) and click on Share -> Publish.
+### Pré-requisitos
 
-## Can I connect a custom domain to my Lovable project?
+- Node.js & npm - [Instale usando nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Yes, you can!
+### Passos para Execução
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```sh
+# 1. Clone o repositório
+git clone <URL_DO_REPOSITÓRIO>
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# 2. Entre na pasta do projeto
+cd calculadorinha
+
+# 3. Instale as dependências
+npm install
+
+# 4. Inicie o servidor de desenvolvimento
+npm run dev
+```
+
+O servidor de desenvolvimento iniciará com auto-reloading e preview instantâneo.
+
+## Formas de Editar o Código
+
+### Usando IDE Local
+
+1. Clone o repositório
+2. Abra o projeto em sua IDE preferida
+3. Faça as alterações necessárias
+4. Commit e push das alterações
+
+### Editando Diretamente no GitHub
+
+1. Navegue até o arquivo desejado
+2. Clique no botão "Edit" (ícone de lápis)
+3. Faça suas alterações
+4. Commit das alterações
+
+### Usando GitHub Codespaces
+
+1. Na página principal do repositório, clique no botão "Code"
+2. Selecione a aba "Codespaces"
+3. Clique em "New codespace"
+4. Edite os arquivos diretamente no ambiente Codespace
+5. Faça commit e push das alterações
