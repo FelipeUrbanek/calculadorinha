@@ -12,13 +12,39 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from "@emailjs/browser";
+
+const FEEDBACK_KEY = "lastFeedbackTime";
+
+function canSendFeedback() {
+  const last = localStorage.getItem(FEEDBACK_KEY);
+  if (!last) return true;
+  const diff = Date.now() - Number(last);
+  return diff > 10 * 60 * 1000; // 10 minutos em ms
+}
+
+function saveFeedbackTime() {
+  localStorage.setItem(FEEDBACK_KEY, Date.now().toString());
+}
 
 export function FeedbackForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!canSendFeedback()) {
+      toast({
+        title: "Aguarde",
+        description: "Você só pode enviar um feedback a cada 10 minutos.",
+        variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -30,16 +56,32 @@ export function FeedbackForm() {
           title: "Erro",
           description: "Por favor, digite sua sugestão antes de enviar.",
           variant: "destructive",
+          duration: 3000,
         });
         return;
       }
 
-      // Enviar para o Google Tag Manager
+      // Enviar email usando EmailJS
+      await emailjs.send(
+        "service_1c6g02l",
+        "template_4n1lgp5",
+        {
+          feedback: feedbackText,
+          page: window.location.pathname,
+          url: window.location.href,
+        },
+        "01vCxUMKXY1hiZEq7"
+      );
+
+      // Salvar o horário do envio
+      saveFeedbackTime();
+
+      // Enviar para o Google Tag Manager também
       const eventData: CustomEventData = {
         event: "feedback_submit",
         feedbackType: "suggestion",
         location: window.location.pathname,
-        eventLabel: feedbackText.substring(0, 100), // Primeiros 100 caracteres como label
+        eventLabel: feedbackText.substring(0, 100),
       };
 
       window.dataLayer?.push(eventData);
@@ -47,16 +89,22 @@ export function FeedbackForm() {
       // Limpar o formulário
       (e.target as HTMLFormElement).reset();
 
-      // Mostrar mensagem de sucesso
+      // Mostrar mensagem de sucesso e fechar o modal
       toast({
         title: "Feedback enviado",
         description: "Obrigado por sua sugestão!",
+        duration: 3000,
       });
+
+      // Fechar o modal
+      setOpen(false);
     } catch (error) {
+      console.error("Erro ao enviar feedback:", error);
       toast({
         title: "Erro",
         description: "Não foi possível enviar seu feedback. Tente novamente.",
         variant: "destructive",
+        duration: 3000,
       });
     } finally {
       setIsSubmitting(false);
@@ -64,7 +112,7 @@ export function FeedbackForm() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="outline"

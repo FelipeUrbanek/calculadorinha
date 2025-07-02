@@ -70,34 +70,75 @@ const DecimalConverter = () => {
   }, []);
 
   const minutesToDecimal = (mins: number): number => {
-    return mins / 60;
+    return parseFloat((mins / 60).toFixed(4));
   };
 
   const decimalToMinutes = (dec: number): number => {
     return Math.round(dec * 60);
   };
 
+  const parseTimeInput = (input: string): number => {
+    // Remove todos os caracteres não numéricos
+    const cleanInput = input.replace(/[^\d]/g, "");
+    const numericValue = parseInt(cleanInput) || 0;
+
+    // Se for um número pequeno (até 2 dígitos)
+    if (cleanInput.length <= 2) {
+      // Se for maior que 59, converte para horas
+      if (numericValue > 59) {
+        const hours = Math.floor(numericValue / 60);
+        const minutes = numericValue % 60;
+        return hours * 60 + minutes;
+      }
+      return numericValue;
+    }
+
+    // Para números maiores que 2 dígitos
+    // Os últimos 2 dígitos são minutos, o resto é hora
+    const minutes = parseInt(cleanInput.slice(-2));
+    const hours = parseInt(cleanInput.slice(0, -2)) || 0;
+
+    // Se os minutos são > 59, converte para a próxima hora
+    if (minutes > 59) {
+      const extraHours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      return (hours + extraHours) * 60 + remainingMinutes;
+    }
+
+    return hours * 60 + minutes;
+  };
+
   const formatTimeInput = (input: string): string => {
     // Remove todos os caracteres não numéricos
     const numbers = input.replace(/[^\d]/g, "");
+    const numericValue = parseInt(numbers) || 0;
 
+    // Se for um número pequeno (até 2 dígitos)
     if (numbers.length <= 2) {
+      // Se for maior que 59, converte para horas
+      if (numericValue > 59) {
+        const hours = Math.floor(numericValue / 60);
+        const minutes = numericValue % 60;
+        return `${hours}h${minutes.toString().padStart(2, "0")}`;
+      }
       return numbers;
     }
 
-    const hours = numbers.slice(0, -2);
-    const minutes = numbers.slice(-2);
-    return `${hours}h${minutes}`;
-  };
+    // Para números maiores que 2 dígitos
+    // Os últimos 2 dígitos são minutos, o resto é hora
+    const minutes = parseInt(numbers.slice(-2));
+    const hours = parseInt(numbers.slice(0, -2)) || 0;
 
-  const parseTimeInput = (input: string): number => {
-    const cleanInput = input.replace(/[^\d]/g, "");
-    if (cleanInput.length <= 2) {
-      return parseInt(cleanInput) || 0;
+    // Se os minutos são > 59, converte para a próxima hora
+    if (minutes > 59) {
+      const extraHours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      return `${hours + extraHours}h${remainingMinutes
+        .toString()
+        .padStart(2, "0")}`;
     }
-    const hours = parseInt(cleanInput.slice(0, -2)) || 0;
-    const minutes = parseInt(cleanInput.slice(-2)) || 0;
-    return hours * 60 + minutes;
+
+    return `${hours}h${minutes.toString().padStart(2, "0")}`;
   };
 
   const formatMinutesToTime = (totalMinutes: number): string => {
@@ -113,6 +154,31 @@ const DecimalConverter = () => {
   };
 
   const handleTimeInputChange = (id: string, value: string) => {
+    // Remove caracteres não numéricos
+    const numbers = value.replace(/[^\d]/g, "");
+
+    // Formata o número como horas durante a digitação
+    let formattedValue = numbers;
+    if (numbers.length > 2) {
+      const minutes = numbers.slice(-2);
+      const hours = numbers.slice(0, -2);
+      formattedValue = `${hours}h${minutes}`;
+    }
+
+    setConverters((prev) =>
+      prev.map((converter) => {
+        if (converter.id === id) {
+          return {
+            ...converter,
+            timeInput: formattedValue,
+          };
+        }
+        return converter;
+      })
+    );
+  };
+
+  const convertTime = (id: string, value: string) => {
     const formattedValue = formatTimeInput(value);
     setConverters((prev) =>
       prev.map((converter) => {
@@ -157,33 +223,44 @@ const DecimalConverter = () => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent, id: string) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const currentIndex = converters.findIndex((c) => c.id === id);
+    // Trata tanto Enter quanto Tab da mesma forma
+    if (e.key === "Enter" || (e.key === "Tab" && !e.shiftKey)) {
+      const converter = converters.find((c) => c.id === id);
+      if (converter) {
+        convertTime(id, converter.timeInput);
+      }
 
-      // Se existe uma próxima linha, sempre vai para ela
-      if (currentIndex < converters.length - 1) {
-        const nextId = converters[currentIndex + 1].id;
-        if (inputRefs.current[nextId]) {
-          inputRefs.current[nextId].focus();
-        }
-      } else if (currentIndex === converters.length - 1) {
-        // Só cria nova linha se estiver na última E tiver algum valor
-        const currentConverter = converters[currentIndex];
-        if (
-          currentConverter.timeInput.trim() !== "" ||
-          currentConverter.decimal > 0
-        ) {
-          const newId = addNewConverter();
-          setTimeout(() => {
-            if (inputRefs.current[newId]) {
-              inputRefs.current[newId].focus();
-            }
-          }, 100); // Pequeno delay para garantir que o input existe
+      // Se for Tab, não previne o comportamento padrão para manter a navegação normal
+      if (e.key === "Enter") {
+        e.preventDefault();
+        // Apenas move o foco para o próximo campo se existir
+        const currentIndex = converters.findIndex((c) => c.id === id);
+        if (currentIndex < converters.length - 1) {
+          const nextId = converters[currentIndex + 1].id;
+          if (inputRefs.current[nextId]) {
+            inputRefs.current[nextId].focus();
+          }
         }
       }
     } else if (e.key === "Backspace") {
       handleBackspace(id);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent, id: string) => {
+    // Trata o Tab aqui para garantir que seja capturado antes do navegador
+    if (e.key === "Tab" && !e.shiftKey) {
+      const converter = converters.find((c) => c.id === id);
+      if (converter) {
+        convertTime(id, converter.timeInput);
+      }
+    }
+  };
+
+  const handleBlur = (id: string) => {
+    const converter = converters.find((c) => c.id === id);
+    if (converter && converter.timeInput) {
+      convertTime(id, converter.timeInput);
     }
   };
 
@@ -309,7 +386,9 @@ const DecimalConverter = () => {
                         onChange={(e) =>
                           handleTimeInputChange(converter.id, e.target.value)
                         }
-                        onKeyDown={(e) => handleKeyPress(e, converter.id)}
+                        onKeyDown={(e) => handleKeyDown(e, converter.id)}
+                        onKeyPress={(e) => handleKeyPress(e, converter.id)}
+                        onBlur={() => handleBlur(converter.id)}
                         className="text-center text-base sm:text-lg font-semibold border-indigo-200 focus:border-indigo-400 focus:ring-indigo-200"
                         placeholder="Ex: 230"
                       />

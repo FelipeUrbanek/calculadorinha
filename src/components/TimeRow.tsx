@@ -64,23 +64,47 @@ const TimeRow = ({
     onUpdate(entry.id, entry.hours, entry.minutes, newOperation);
   };
 
-  const handleHoursKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    rowIndex: number,
+    inputType: "hours" | "minutes"
+  ) => {
+    if (e.key === "Enter" || (e.key === "Tab" && !e.shiftKey)) {
       e.preventDefault();
-      minutesInputRef.current?.focus();
-    }
-  };
 
-  const handleMinutesKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (index < totalRows - 1 && onFocusNextRow) {
-        onFocusNextRow(index);
-      } else if (
-        index === totalRows - 1 &&
-        (entry.hours > 0 || entry.minutes > 0)
-      ) {
-        onAddNew();
+      const isLastRow = rowIndex === totalRows - 1;
+      const isHoursInput = inputType === "hours";
+      const isMinutesInput = inputType === "minutes";
+
+      if (isHoursInput) {
+        const minutesInput = document.querySelector(
+          `input[data-input-type="minutes"][data-row-index="${rowIndex}"]`
+        ) as HTMLInputElement;
+        if (minutesInput) {
+          minutesInput.focus();
+        }
+        return;
+      }
+
+      if (isMinutesInput) {
+        if (isLastRow) {
+          onAddNew();
+          setTimeout(() => {
+            const nextHoursInput = document.querySelector(
+              `input[data-input-type="hours"][data-row-index="${rowIndex + 1}"]`
+            ) as HTMLInputElement;
+            if (nextHoursInput) {
+              nextHoursInput.focus();
+            }
+          }, 0);
+        } else {
+          const nextHoursInput = document.querySelector(
+            `input[data-input-type="hours"][data-row-index="${rowIndex + 1}"]`
+          ) as HTMLInputElement;
+          if (nextHoursInput) {
+            nextHoursInput.focus();
+          }
+        }
       }
     }
   };
@@ -147,7 +171,7 @@ const TimeRow = ({
           min="0"
           value={entry.hours.toString()}
           onChange={(e) => handleHoursChange(e.target.value)}
-          onKeyDown={handleHoursKeyPress}
+          onKeyDown={(e) => handleKeyDown(e, index, "hours")}
           className="text-center text-base sm:text-lg font-semibold px-1 sm:px-3"
           placeholder="0"
           data-input-type="hours"
@@ -167,7 +191,7 @@ const TimeRow = ({
           max="59"
           value={entry.minutes.toString()}
           onChange={(e) => handleMinutesChange(e.target.value)}
-          onKeyDown={handleMinutesKeyPress}
+          onKeyDown={(e) => handleKeyDown(e, index, "minutes")}
           className="text-center text-base sm:text-lg font-semibold px-1 sm:px-3"
           placeholder="0"
           data-input-type="minutes"
