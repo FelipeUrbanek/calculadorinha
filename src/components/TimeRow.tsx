@@ -111,7 +111,10 @@ const TimeRow = ({
 
   const getDecimalHours = (): string => {
     const totalMinutes = entry.hours * 60 + entry.minutes;
-    return (totalMinutes / 60).toFixed(2);
+    // Arredonda para cima e mantém 2 casas decimais
+    const decimal = totalMinutes / 60;
+    const roundedUp = Math.ceil(decimal * 100) / 100;
+    return roundedUp.toFixed(2);
   };
 
   const isAddition = entry.operation === "add";

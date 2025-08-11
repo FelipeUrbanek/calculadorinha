@@ -41,6 +41,7 @@ const TimeCalculator = () => {
   const { toast } = useToast();
   const timeRowRefs = useRef<{ [key: string]: HTMLDivElement }>({});
   const hoursInputRefs = useRef<{ [key: string]: HTMLInputElement }>({});
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Salva as entradas no localStorage sempre que houver mudanças
   useEffect(() => {
@@ -76,7 +77,22 @@ const TimeCalculator = () => {
 
   const removeTimeEntry = (id: string) => {
     if (timeEntries.length > 1) {
+      const removedIndex = timeEntries.findIndex((entry) => entry.id === id);
       setTimeEntries(timeEntries.filter((entry) => entry.id !== id));
+
+      // Ajusta o scroll após remover a linha
+      setTimeout(() => {
+        if (containerRef.current && removedIndex > 0) {
+          const previousRow =
+            timeRowRefs.current[timeEntries[removedIndex - 1]?.id];
+          if (previousRow) {
+            previousRow.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+        }
+      }, 100);
     }
   };
 
@@ -125,7 +141,9 @@ const TimeCalculator = () => {
   };
 
   const minutesToDecimal = (totalMinutes: number): number => {
-    return totalMinutes / 60;
+    // Arredonda para cima e mantém 2 casas decimais
+    const decimal = totalMinutes / 60;
+    return Math.ceil(decimal * 100) / 100;
   };
 
   const totalMinutes = calculateTotalMinutes(timeEntries);
@@ -212,8 +230,8 @@ const TimeCalculator = () => {
             </div>
 
             {/* Time Entries */}
-            <AnimatePresence>
-              <div className="space-y-2">
+            <div ref={containerRef} className="space-y-2">
+              <AnimatePresence>
                 {timeEntries.map((entry, index) => (
                   <div
                     key={entry.id}
@@ -239,8 +257,15 @@ const TimeCalculator = () => {
                     />
                   </div>
                 ))}
+              </AnimatePresence>
+
+              {/* Contador de linha */}
+              <div className="flex justify-end pt-2">
+                <div className="text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                  Total de linhas: {timeEntries.length}
+                </div>
               </div>
-            </AnimatePresence>
+            </div>
 
             {/* Action Buttons */}
             <div className="flex justify-center gap-2 pt-2">

@@ -11,7 +11,9 @@ const ResultDisplay = ({ result }: ResultDisplayProps) => {
     minutes: number;
     seconds: number;
   }): number => {
-    return time.hours + time.minutes / 60 + time.seconds / 3600;
+    // Arredonda para cima e mantém 2 casas decimais
+    const decimal = time.hours + time.minutes / 60 + time.seconds / 3600;
+    return Math.ceil(decimal * 100) / 100;
   };
 
   const toDecimalMinutes = (time: {
@@ -19,7 +21,9 @@ const ResultDisplay = ({ result }: ResultDisplayProps) => {
     minutes: number;
     seconds: number;
   }): number => {
-    return time.hours * 60 + time.minutes + time.seconds / 60;
+    // Arredonda para cima e mantém 2 casas decimais
+    const decimal = time.hours * 60 + time.minutes + time.seconds / 60;
+    return Math.ceil(decimal * 100) / 100;
   };
 
   const toDecimalSeconds = (time: {
@@ -63,7 +67,7 @@ const ResultDisplay = ({ result }: ResultDisplayProps) => {
                 Decimal (Horas)
               </div>
               <div className="text-2xl font-bold text-emerald-800">
-                {toDecimalHours(result).toFixed(4)}h
+                {toDecimalHours(result).toFixed(2)}h
               </div>
             </div>
           </CardContent>
