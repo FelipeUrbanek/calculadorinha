@@ -1,15 +1,9 @@
 import { useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { motion } from "framer-motion";
 import { Trash2, Plus, Minus } from "lucide-react";
+import { Label } from "@/components/ui/label";
 import { TimeEntry } from "./TimeCalculator";
 
 interface TimeRowProps {
@@ -26,7 +20,6 @@ interface TimeRowProps {
   onAddNew: () => void;
   canRemove: boolean;
   showDecimal: boolean;
-  onFocusNextRow?: (currentIndex: number) => void;
   onRegisterHoursInput: (ref: HTMLInputElement | null) => void;
 }
 
@@ -39,7 +32,6 @@ const TimeRow = ({
   onAddNew,
   canRemove,
   showDecimal,
-  onFocusNextRow,
   onRegisterHoursInput,
 }: TimeRowProps) => {
   const hoursInputRef = useRef<HTMLInputElement>(null);
@@ -59,8 +51,8 @@ const TimeRow = ({
     onUpdate(entry.id, entry.hours, minutes, entry.operation);
   };
 
-  const toggleOperation = () => {
-    const newOperation = entry.operation === "add" ? "subtract" : "add";
+  const toggleOperation = (checked: boolean) => {
+    const newOperation = checked ? "add" : "subtract";
     onUpdate(entry.id, entry.hours, entry.minutes, newOperation);
   };
 
@@ -109,18 +101,9 @@ const TimeRow = ({
     }
   };
 
-  const getDecimalHours = (): string => {
-    const totalMinutes = entry.hours * 60 + entry.minutes;
-    // Arredonda para cima e mantém 2 casas decimais
-    const decimal = totalMinutes / 60;
-    const roundedUp = Math.ceil(decimal * 100) / 100;
-    return roundedUp.toFixed(2);
-  };
-
   const isAddition = entry.operation === "add";
-  const bgColor = isAddition
-    ? "bg-green-50 border-green-200 hover:border-green-300"
-    : "bg-blue-50 border-blue-200 hover:border-blue-300";
+  const bgColor = isAddition ? "bg-green-50/50" : "bg-red-50/50";
+  const borderColor = isAddition ? "border-green-100" : "border-red-100";
 
   return (
     <motion.div
@@ -128,46 +111,31 @@ const TimeRow = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2 }}
-      className={`grid grid-cols-12 gap-2 sm:gap-4 items-center p-2 sm:p-4 rounded-lg border-2 ${bgColor} transition-colors`}
+      className={`flex flex-wrap sm:flex-nowrap items-center gap-4 py-3 px-4 rounded-xl border ${bgColor} ${borderColor} transition-colors`}
       data-row-index={index}
     >
-      <div className="col-span-4 sm:col-span-2">
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button
-            type="button"
-            onClick={toggleOperation}
-            className={`w-full ${
-              isAddition
-                ? "border-green-300 bg-green-100"
-                : "border-blue-300 bg-blue-100"
-            }`}
-            variant="outline"
-            data-operation-type={isAddition ? "add" : "subtract"}
-          >
-            <div className="flex items-center justify-center gap-1 sm:gap-2">
-              {isAddition ? (
-                <>
-                  <Plus className="h-4 w-4 text-green-600" />
-                  <span className="text-green-700 hidden sm:inline">Somar</span>
-                </>
-              ) : (
-                <>
-                  <Minus className="h-4 w-4 text-blue-600" />
-                  <span className="text-blue-700 hidden sm:inline">
-                    Subtrair
-                  </span>
-                </>
-              )}
-            </div>
-          </Button>
-        </motion.div>
+      {/* Operation Toggle */}
+      <div className="flex items-center gap-2 min-w-[140px]">
+        <button
+          onClick={() => toggleOperation(!isAddition)}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all shadow-sm hover:scale-105 active:scale-95 ${
+            isAddition
+              ? "bg-green-500 text-white hover:bg-green-600"
+              : "bg-red-500 text-white hover:bg-red-600"
+          }`}
+        >
+          {isAddition ? (
+            <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
+          ) : (
+            <Minus className="h-4 w-4" />
+          )}
+          {isAddition ? "Somar" : "Subtrair"}
+        </button>
       </div>
 
-      <motion.div
-        className="col-span-4 sm:col-span-2"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
+      {/* Hours Input */}
+      <div className="flex-1 min-w-[100px]">
+        <Label className="text-xs text-slate-500 mb-1 block">Horas</Label>
         <Input
           ref={hoursInputRef}
           type="number"
@@ -175,64 +143,59 @@ const TimeRow = ({
           value={entry.hours.toString()}
           onChange={(e) => handleHoursChange(e.target.value)}
           onKeyDown={(e) => handleKeyDown(e, index, "hours")}
-          className="text-center text-base sm:text-lg font-semibold px-1 sm:px-3"
+          onFocus={(e) => e.target.select()}
+          className="h-12 text-lg rounded-xl border-slate-200 bg-white focus:ring-2 focus:ring-slate-200 transition-all text-center hover:border-slate-300"
           placeholder="0"
           data-input-type="hours"
           data-row-index={index}
         />
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="col-span-4 sm:col-span-2"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
+      {/* Minutes Input */}
+      <div className="flex-1 min-w-[100px]">
+        <Label className="text-xs text-slate-500 mb-1 block">Minutos</Label>
         <Input
           ref={minutesInputRef}
           type="number"
           min="0"
           max="59"
-          value={entry.minutes.toString()}
+          value={entry.minutes.toString().padStart(2, "0")}
           onChange={(e) => handleMinutesChange(e.target.value)}
           onKeyDown={(e) => handleKeyDown(e, index, "minutes")}
-          className="text-center text-base sm:text-lg font-semibold px-1 sm:px-3"
-          placeholder="0"
+          onFocus={(e) => e.target.select()}
+          className="h-12 text-lg rounded-xl border-slate-200 bg-white focus:ring-2 focus:ring-slate-200 transition-all text-center hover:border-slate-300"
+          placeholder="00"
           data-input-type="minutes"
           data-row-index={index}
         />
-      </motion.div>
+      </div>
 
+      {/* Decimal Display */}
       {showDecimal && (
-        <motion.div
-          className="col-span-6 sm:col-span-3 px-2 sm:px-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <div className="text-base sm:text-lg font-semibold text-slate-700 text-center">
-            {getDecimalHours()}
+        <div className="flex-1 min-w-[100px]">
+          <Label className="text-xs text-slate-500 mb-1 block">Decimal</Label>
+          <div className="h-12 flex items-center justify-center px-3 text-lg font-medium text-slate-600 bg-slate-50 rounded-xl border border-transparent transition-all hover:bg-slate-100">
+            {(
+              entry.hours +
+              Math.ceil((entry.minutes / 60) * 100) / 100
+            ).toFixed(2)}
           </div>
-        </motion.div>
+        </div>
       )}
 
-      <div
-        className={`${
-          showDecimal ? "col-span-6 sm:col-span-3" : "col-span-12 sm:col-span-6"
-        } flex justify-center`}
-      >
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Button
-            onClick={() => onRemove(entry.id)}
-            disabled={!canRemove}
-            variant="outline"
-            size="sm"
-            className="text-red-600 hover:bg-red-50 disabled:opacity-30"
-            data-action="remove-row"
-            data-row-index={index}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </motion.div>
+      {/* Delete Button */}
+      <div className="pt-5">
+        <Button
+          onClick={() => onRemove(entry.id)}
+          disabled={!canRemove}
+          variant="ghost"
+          size="icon"
+          className="text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all hover:scale-110 active:scale-90"
+          data-action="remove-row"
+          data-row-index={index}
+        >
+          <Trash2 className="h-5 w-5" />
+        </Button>
       </div>
     </motion.div>
   );

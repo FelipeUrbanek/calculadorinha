@@ -1,14 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Plus, RotateCcw } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import TimeRow from "./TimeRow";
-import TimeResults from "./TimeResults";
-import DecimalConverter from "./DecimalConverter";
 
 export interface TimeEntry {
   id: string;
@@ -17,47 +11,20 @@ export interface TimeEntry {
   operation: "add" | "subtract";
 }
 
-// Chaves para o localStorage
-const STORAGE_KEYS = {
-  TIME_ENTRIES: "hora-certa-entries",
-  SHOW_DECIMAL: "hora-certa-show-decimal",
-};
+interface TimeCalculatorProps {
+  timeEntries: TimeEntry[];
+  setTimeEntries: (entries: TimeEntry[]) => void;
+  showDecimal: boolean;
+}
 
-const TimeCalculator = () => {
-  const [timeEntries, setTimeEntries] = useState<TimeEntry[]>(() => {
-    // Recupera os dados do localStorage na inicialização
-    const savedEntries = localStorage.getItem(STORAGE_KEYS.TIME_ENTRIES);
-    return savedEntries
-      ? JSON.parse(savedEntries)
-      : [{ id: "1", hours: 0, minutes: 0, operation: "add" }];
-  });
-
-  const [showDecimal, setShowDecimal] = useState<boolean>(() => {
-    // Recupera a preferência de exibição decimal
-    const savedPreference = localStorage.getItem(STORAGE_KEYS.SHOW_DECIMAL);
-    return savedPreference ? JSON.parse(savedPreference) : false;
-  });
-
-  const { toast } = useToast();
+const TimeCalculator = ({
+  timeEntries,
+  setTimeEntries,
+  showDecimal,
+}: TimeCalculatorProps) => {
   const timeRowRefs = useRef<{ [key: string]: HTMLDivElement }>({});
   const hoursInputRefs = useRef<{ [key: string]: HTMLInputElement }>({});
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // Salva as entradas no localStorage sempre que houver mudanças
-  useEffect(() => {
-    localStorage.setItem(
-      STORAGE_KEYS.TIME_ENTRIES,
-      JSON.stringify(timeEntries)
-    );
-  }, [timeEntries]);
-
-  // Salva a preferência de exibição decimal
-  useEffect(() => {
-    localStorage.setItem(
-      STORAGE_KEYS.SHOW_DECIMAL,
-      JSON.stringify(showDecimal)
-    );
-  }, [showDecimal]);
 
   const addTimeEntry = () => {
     const newId = Date.now().toString();
@@ -66,7 +33,6 @@ const TimeCalculator = () => {
       { id: newId, hours: 0, minutes: 0, operation: "add" },
     ]);
 
-    // Foca no input de horas da nova linha após ela ser criada
     setTimeout(() => {
       const newInput = hoursInputRefs.current[newId];
       if (newInput) {
@@ -80,7 +46,6 @@ const TimeCalculator = () => {
       const removedIndex = timeEntries.findIndex((entry) => entry.id === id);
       setTimeEntries(timeEntries.filter((entry) => entry.id !== id));
 
-      // Ajusta o scroll após remover a linha
       setTimeout(() => {
         if (containerRef.current && removedIndex > 0) {
           const previousRow =
@@ -109,206 +74,86 @@ const TimeCalculator = () => {
     );
   };
 
-  const resetAll = () => {
-    setTimeEntries([{ id: "1", hours: 0, minutes: 0, operation: "add" }]);
-    toast({
-      title: "Reset realizado",
-      description: "Todos os valores foram zerados.",
-      duration: 1000, // 1 segundo
-    });
-  };
-
-  const calculateTotalMinutes = (entries: TimeEntry[]): number => {
-    return entries.reduce((total, entry) => {
-      const entryMinutes = entry.hours * 60 + entry.minutes;
-      return entry.operation === "add"
-        ? total + entryMinutes
-        : total - entryMinutes;
-    }, 0);
-  };
-
-  const getAdditionEntries = () =>
-    timeEntries.filter((entry) => entry.operation === "add");
-  const getSubtractionEntries = () =>
-    timeEntries.filter((entry) => entry.operation === "subtract");
-
-  const minutesToTime = (totalMinutes: number) => {
-    const isNegative = totalMinutes < 0;
-    const absMinutes = Math.abs(totalMinutes);
-    const hours = Math.floor(absMinutes / 60);
-    const minutes = absMinutes % 60;
-    return { hours, minutes, isNegative };
-  };
-
-  const minutesToDecimal = (totalMinutes: number): number => {
-    // Arredonda para cima e mantém 2 casas decimais
-    const decimal = totalMinutes / 60;
-    return Math.ceil(decimal * 100) / 100;
-  };
-
-  const totalMinutes = calculateTotalMinutes(timeEntries);
-  const additionTotal = getAdditionEntries().reduce(
-    (total, entry) => total + entry.hours * 60 + entry.minutes,
-    0
-  );
-  const subtractionTotal = getSubtractionEntries().reduce(
-    (total, entry) => total + entry.hours * 60 + entry.minutes,
-    0
-  );
-
-  const finalResult = minutesToTime(totalMinutes);
-  const additionResult = minutesToTime(additionTotal);
-  const subtractionResult = minutesToTime(subtractionTotal);
-
-  const handleFocusNextRow = (currentIndex: number) => {
-    const nextEntry = timeEntries[currentIndex + 1];
-    if (nextEntry) {
-      const nextInput = hoursInputRefs.current[nextEntry.id];
-      if (nextInput) {
-        nextInput.focus();
-      }
-    }
-  };
-
   const registerHoursInputRef = (id: string, ref: HTMLInputElement | null) => {
     if (ref) {
       hoursInputRefs.current[id] = ref;
     }
   };
 
+  const clearAllEntries = () => {
+    setTimeEntries([{ id: "1", hours: 0, minutes: 0, operation: "add" }]);
+  };
+
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-4 px-2 sm:px-0">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <Card className="shadow-xl border-0 bg-white">
-          <CardHeader className="text-center pb-2">
-            <CardTitle className="text-xl sm:text-2xl text-slate-800">
-              Calculadorinha - Calcule suas horas facilmente
-            </CardTitle>
-            <motion.div
-              className="flex items-center justify-center gap-2 mt-2"
-              whileHover={{ scale: 1.02 }}
-            >
-              <Switch
-                id="show-decimal"
-                checked={showDecimal}
-                onCheckedChange={setShowDecimal}
-              />
-              <Label htmlFor="show-decimal" className="text-sm text-slate-600">
-                Mostrar conversão decimal
-              </Label>
-            </motion.div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Headers */}
-            <div className="hidden sm:grid grid-cols-12 gap-2 sm:gap-4 items-center text-sm font-medium text-slate-600 px-2 sm:px-4">
-              <div className="col-span-4 sm:col-span-2">Operação</div>
-              <div className="col-span-4 sm:col-span-2">Horas</div>
-              <div className="col-span-4 sm:col-span-2">Minutos</div>
-              {showDecimal && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="col-span-6 sm:col-span-3"
-                >
-                  Decimal
-                </motion.div>
-              )}
+    <Card className="shadow-sm border-0 bg-white h-full">
+      <CardHeader className="pb-4">
+        <div
+          className={`hidden sm:grid ${
+            showDecimal
+              ? "sm:grid-cols-[140px_1fr_1fr_1fr_40px]"
+              : "sm:grid-cols-[140px_1fr_1fr_40px]"
+          } gap-4 px-4 mb-2 text-xs font-medium text-slate-500`}
+        >
+          <div>Operação</div>
+          <div>Horas</div>
+          <div>Minutos</div>
+          {showDecimal && <div>Decimal</div>}
+          <div className="text-center">Ações</div>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div ref={containerRef} className="space-y-4">
+          <AnimatePresence>
+            {timeEntries.map((entry, index) => (
               <div
-                className={`${
-                  showDecimal
-                    ? "col-span-6 sm:col-span-3"
-                    : "col-span-12 sm:col-span-6"
-                }`}
+                key={entry.id}
+                ref={(el) => {
+                  if (el) {
+                    timeRowRefs.current[entry.id] = el;
+                  }
+                }}
               >
-                Ações
+                <TimeRow
+                  entry={entry}
+                  index={index}
+                  totalRows={timeEntries.length}
+                  onUpdate={updateTimeEntry}
+                  onRemove={removeTimeEntry}
+                  onAddNew={addTimeEntry}
+                  canRemove={timeEntries.length > 1}
+                  showDecimal={showDecimal}
+                  onRegisterHoursInput={(ref) =>
+                    registerHoursInputRef(entry.id, ref)
+                  }
+                />
               </div>
-            </div>
+            ))}
+          </AnimatePresence>
+        </div>
 
-            {/* Time Entries */}
-            <div ref={containerRef} className="space-y-2">
-              <AnimatePresence>
-                {timeEntries.map((entry, index) => (
-                  <div
-                    key={entry.id}
-                    ref={(el) => {
-                      if (el) {
-                        timeRowRefs.current[entry.id] = el;
-                      }
-                    }}
-                  >
-                    <TimeRow
-                      entry={entry}
-                      index={index}
-                      totalRows={timeEntries.length}
-                      onUpdate={updateTimeEntry}
-                      onRemove={removeTimeEntry}
-                      onAddNew={addTimeEntry}
-                      canRemove={timeEntries.length > 1}
-                      showDecimal={showDecimal}
-                      onFocusNextRow={handleFocusNextRow}
-                      onRegisterHoursInput={(ref) =>
-                        registerHoursInputRef(entry.id, ref)
-                      }
-                    />
-                  </div>
-                ))}
-              </AnimatePresence>
-
-              {/* Contador de linha */}
-              <div className="flex justify-end pt-2">
-                <div className="text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                  Total de linhas: {timeEntries.length}
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex justify-center gap-2 pt-2">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  onClick={addTimeEntry}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Adicionar Linha
-                </Button>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button onClick={resetAll} variant="outline">
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Limpar
-                </Button>
-              </motion.div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Results Section */}
-      <TimeResults
-        finalResult={finalResult}
-        additionResult={additionResult}
-        subtractionResult={subtractionResult}
-        showDecimal={showDecimal}
-        finalDecimal={minutesToDecimal(totalMinutes)}
-        additionDecimal={minutesToDecimal(additionTotal)}
-        subtractionDecimal={minutesToDecimal(subtractionTotal)}
-      />
-
-      {/* Decimal Converter */}
-      <DecimalConverter />
-    </div>
+        {/* Action Buttons */}
+        <div className="pt-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div className="flex gap-2 w-full sm:w-auto flex-1">
+            <Button
+              onClick={addTimeEntry}
+              className="flex-1 sm:flex-initial bg-slate-600 hover:bg-slate-700 text-white h-12 text-base font-medium transition-all hover:scale-105 active:scale-95"
+            >
+              Adicionar nova linha
+            </Button>
+            <Button
+              onClick={clearAllEntries}
+              variant="outline"
+              className="h-12 px-4 border-2 border-slate-300 hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all hover:scale-105 active:scale-95"
+            >
+              Limpar
+            </Button>
+          </div>
+          <div className="bg-slate-100 text-slate-600 text-xs px-4 py-2 rounded-full font-medium animate-pulse">
+            Total de linhas: {timeEntries.length}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

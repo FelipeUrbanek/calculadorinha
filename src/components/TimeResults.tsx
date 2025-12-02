@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Minus, Calculator } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 interface TimeResultsProps {
   finalResult: { hours: number; minutes: number; isNegative: boolean };
@@ -22,18 +22,6 @@ const formatTime = (result: {
   return `${sign}${hours}:${minutes}`;
 };
 
-const formatDecimal = (value: number) => {
-  const absValue = Math.abs(value);
-  const hours = Math.floor(absValue);
-  const minutes = Math.round((absValue - hours) * 60);
-
-  if (minutes === 0) {
-    return `${value < 0 ? "-" : ""}${hours}h`;
-  }
-
-  return `${value < 0 ? "-" : ""}${hours}h ${minutes}m`;
-};
-
 const TimeResults = ({
   finalResult,
   additionResult,
@@ -44,113 +32,58 @@ const TimeResults = ({
   showDecimal,
 }: TimeResultsProps) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-      {/* Final Result */}
-      <Card className="bg-gradient-to-r from-purple-50 to-violet-50 border-purple-200 shadow-lg sm:col-span-2 lg:col-span-1 order-first">
-        <CardHeader className="text-center pb-2 sm:pb-3">
-          <CardTitle className="flex items-center justify-center gap-2 text-lg sm:text-xl text-purple-800">
-            <Calculator className="h-5 w-5" />
-            Resultado Final
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3 sm:space-y-4">
-          <div className="text-center">
-            <div
-              className={`text-3xl sm:text-4xl font-bold mb-1 sm:mb-2 ${
-                finalResult.isNegative ? "text-red-700" : "text-purple-900"
-              }`}
-            >
-              {formatTime(finalResult)}
-            </div>
-            <div
-              className={`text-base sm:text-lg ${
-                finalResult.isNegative ? "text-red-600" : "text-purple-700"
-              }`}
-            >
-              {finalResult.isNegative ? "-" : ""}
-              {formatDecimal(finalDecimal)}
-            </div>
+    <Card className="shadow-sm border-0 bg-white">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg font-bold text-slate-900">
+          Resultado
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Main Result */}
+        <div className="text-center py-6 bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl">
+          <div className="text-6xl font-bold text-slate-900 tracking-tight">
+            {formatTime(finalResult)}
           </div>
-
           {showDecimal && (
-            <div className="bg-white/50 rounded-lg p-3 sm:p-4 text-center">
-              <div className="text-sm font-medium text-purple-700 mb-1">
-                Decimal
-              </div>
-              <div
-                className={`text-xl sm:text-2xl font-bold ${
-                  finalResult.isNegative ? "text-red-700" : "text-purple-800"
-                }`}
-              >
-                {finalDecimal.toFixed(2)}
-              </div>
+            <div className="mt-3 inline-block bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full text-sm font-medium">
+              {finalDecimal.toFixed(2)} horas decimais
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
 
-      {/* Addition Results */}
-      <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 shadow-lg">
-        <CardHeader className="text-center pb-2 sm:pb-3">
-          <CardTitle className="flex items-center justify-center gap-2 text-lg sm:text-xl text-green-800">
-            <Plus className="h-5 w-5" />
-            Total Somado
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3 sm:space-y-4">
-          <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold text-green-900 mb-1 sm:mb-2">
-              {formatTime(additionResult)}
-            </div>
-            <div className="text-base sm:text-lg text-green-700">
-              {formatDecimal(additionDecimal)}
+        <Separator />
+
+        {/* Details */}
+        <div className="space-y-3">
+          <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg border border-green-100 transition-all hover:shadow-md hover:scale-[1.02]">
+            <span className="text-green-700 font-medium text-sm">Total Somado</span>
+            <div className="text-right">
+              <div className="font-bold text-green-900">
+                {formatTime(additionResult)}
+              </div>
+              {showDecimal && (
+                <div className="text-xs text-green-600 mt-0.5">
+                  {additionDecimal.toFixed(2)} decimais
+                </div>
+              )}
             </div>
           </div>
-
-          {showDecimal && (
-            <div className="bg-white/50 rounded-lg p-3 sm:p-4 text-center">
-              <div className="text-sm font-medium text-green-700 mb-1">
-                Decimal
+          <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg border border-red-100 transition-all hover:shadow-md hover:scale-[1.02]">
+            <span className="text-red-700 font-medium text-sm">Total Subtraído</span>
+            <div className="text-right">
+              <div className="font-bold text-red-900">
+                {formatTime(subtractionResult)}
               </div>
-              <div className="text-xl sm:text-2xl font-bold text-green-800">
-                {additionDecimal.toFixed(2)}
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Subtraction Results */}
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-lg">
-        <CardHeader className="text-center pb-2 sm:pb-3">
-          <CardTitle className="flex items-center justify-center gap-2 text-lg sm:text-xl text-blue-800">
-            <Minus className="h-5 w-5" />
-            Total Subtraído
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3 sm:space-y-4">
-          <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold text-blue-900 mb-1 sm:mb-2">
-              {formatTime(subtractionResult)}
-            </div>
-            <div className="text-base sm:text-lg text-blue-700">
-              {formatDecimal(subtractionDecimal)}
+              {showDecimal && (
+                <div className="text-xs text-red-600 mt-0.5">
+                  {subtractionDecimal.toFixed(2)} decimais
+                </div>
+              )}
             </div>
           </div>
-
-          {showDecimal && (
-            <div className="bg-white/50 rounded-lg p-3 sm:p-4 text-center">
-              <div className="text-sm font-medium text-blue-700 mb-1">
-                Decimal
-              </div>
-              <div className="text-xl sm:text-2xl font-bold text-blue-800">
-                {subtractionDecimal.toFixed(2)}
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
