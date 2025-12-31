@@ -43,19 +43,14 @@ const TimeCalculator = ({
 
   const removeTimeEntry = (id: string) => {
     if (timeEntries.length > 1) {
-      const removedIndex = timeEntries.findIndex((entry) => entry.id === id);
       setTimeEntries(timeEntries.filter((entry) => entry.id !== id));
 
       setTimeout(() => {
-        if (containerRef.current && removedIndex > 0) {
-          const previousRow =
-            timeRowRefs.current[timeEntries[removedIndex - 1]?.id];
-          if (previousRow) {
-            previousRow.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }
+        const page = document.getElementById("page-scroll");
+        if (page) {
+          page.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }, 100);
     }
@@ -82,6 +77,14 @@ const TimeCalculator = ({
 
   const clearAllEntries = () => {
     setTimeEntries([{ id: "1", hours: 0, minutes: 0, operation: "add" }]);
+    setTimeout(() => {
+      const page = document.getElementById("page-scroll");
+      if (page) {
+        page.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }, 100);
   };
 
   return (

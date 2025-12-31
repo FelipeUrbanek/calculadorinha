@@ -119,7 +119,7 @@ export default function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 fixed inset-0 w-full overflow-y-auto">
+    <div id="page-scroll" className="min-h-screen bg-gray-50 fixed inset-0 w-full overflow-y-auto">
       <div className="container mx-auto py-4 sm:py-8 px-4 max-w-7xl">
         {/* Header */}
         <header className="bg-white shadow-sm rounded-xl px-6 py-4 mb-8 border border-slate-100">
