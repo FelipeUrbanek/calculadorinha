@@ -44,15 +44,6 @@ const TimeCalculator = ({
   const removeTimeEntry = (id: string) => {
     if (timeEntries.length > 1) {
       setTimeEntries(timeEntries.filter((entry) => entry.id !== id));
-
-      setTimeout(() => {
-        const page = document.getElementById("page-scroll");
-        if (page) {
-          page.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-      }, 100);
     }
   };
 
