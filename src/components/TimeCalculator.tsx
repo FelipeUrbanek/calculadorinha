@@ -79,14 +79,14 @@ const TimeCalculator = ({
   };
 
   return (
-    <Card className="shadow-sm border-0 bg-white h-full">
+    <Card className="shadow-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-full transition-colors">
       <CardHeader className="pb-4">
         <div
           className={`hidden sm:grid ${
             showDecimal
               ? "sm:grid-cols-[140px_1fr_1fr_1fr_40px]"
               : "sm:grid-cols-[140px_1fr_1fr_40px]"
-          } gap-4 px-4 mb-2 text-xs font-medium text-slate-500`}
+          } gap-4 px-4 mb-2 text-xs font-medium text-slate-500 dark:text-slate-400 transition-colors`}
         >
           <div>Operação</div>
           <div>Horas</div>
@@ -142,7 +142,7 @@ const TimeCalculator = ({
               Limpar
             </Button>
           </div>
-          <div className="bg-slate-100 text-slate-600 text-xs px-4 py-2 rounded-full font-medium animate-pulse">
+          <div className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs px-4 py-2 rounded-full font-medium animate-pulse transition-colors">
             Total de linhas: {timeEntries.length}
           </div>
         </div>

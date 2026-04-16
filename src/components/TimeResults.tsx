@@ -32,20 +32,23 @@ const TimeResults = ({
   showDecimal,
 }: TimeResultsProps) => {
   return (
-    <Card className="shadow-sm border-0 bg-white">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-bold text-slate-900">
-          Resultado
+    <Card className="shadow-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 backdrop-blur-xl overflow-hidden relative transition-colors">
+      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-red-500 via-purple-500 to-pink-500"></div>
+      <CardHeader className="pb-4 border-b border-slate-100 dark:border-slate-800/50">
+        <CardTitle className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
+          Resultado Final
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Main Result */}
-        <div className="text-center py-6 bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl">
-          <div className="text-6xl font-bold text-slate-900 tracking-tight">
+        <div className="text-center py-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/50 relative overflow-hidden group transition-colors">
+          <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-purple-500/5 dark:from-indigo-500/10 dark:to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative text-7xl font-black text-slate-800 dark:text-white tracking-tighter drop-shadow-sm transition-colors">
             {formatTime(finalResult)}
           </div>
           {showDecimal && (
-            <div className="mt-3 inline-block bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full text-sm font-medium">
+            <div className="relative mt-4 inline-block bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-700 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
               {finalDecimal.toFixed(2)} horas decimais
             </div>
           )}
@@ -54,34 +57,31 @@ const TimeResults = ({
         <Separator />
 
         {/* Details */}
-        <div className="space-y-3">
-          <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg border border-green-100 transition-all hover:shadow-md hover:scale-[1.02]">
-            <span className="text-green-700 font-medium text-sm">Total Somado</span>
-            <div className="text-right">
-              <div className="font-bold text-green-900">
-                {formatTime(additionResult)}
-              </div>
-              {showDecimal && (
-                <div className="text-xs text-green-600 mt-0.5">
-                  {additionDecimal.toFixed(2)} decimais
-                </div>
-              )}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col justify-center p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl border border-emerald-100 dark:border-emerald-500/20 transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20">
+            <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Somado</span>
+            <div className="font-bold text-emerald-900 dark:text-white text-xl">
+              {formatTime(additionResult)}
             </div>
+            {showDecimal && (
+              <div className="text-[10px] text-emerald-600 dark:text-emerald-500/70 mt-1 font-medium select-none">
+                {additionDecimal.toFixed(2)} dec
+              </div>
+            )}
           </div>
-          <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg border border-red-100 transition-all hover:shadow-md hover:scale-[1.02]">
-            <span className="text-red-700 font-medium text-sm">Total Subtraído</span>
-            <div className="text-right">
-              <div className="font-bold text-red-900">
-                {formatTime(subtractionResult)}
-              </div>
-              {showDecimal && (
-                <div className="text-xs text-red-600 mt-0.5">
-                  {subtractionDecimal.toFixed(2)} decimais
-                </div>
-              )}
+          <div className="flex flex-col justify-center p-4 bg-rose-50 dark:bg-rose-500/10 rounded-xl border border-rose-100 dark:border-rose-500/20 transition-all hover:bg-rose-100 dark:hover:bg-rose-500/20">
+            <span className="text-rose-700 dark:text-rose-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Subtraído</span>
+            <div className="font-bold text-rose-900 dark:text-white text-xl">
+              {formatTime(subtractionResult)}
             </div>
+            {showDecimal && (
+              <div className="text-[10px] text-rose-600 dark:text-rose-500/70 mt-1 font-medium select-none">
+                {subtractionDecimal.toFixed(2)} dec
+              </div>
+            )}
           </div>
         </div>
+
       </CardContent>
     </Card>
   );

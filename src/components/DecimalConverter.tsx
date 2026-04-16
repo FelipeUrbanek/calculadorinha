@@ -71,26 +71,26 @@ const DecimalConverter = () => {
   };
 
   return (
-    <Card className="shadow-sm border-0 overflow-hidden">
+    <Card className="shadow-sm border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 transition-colors">
       <CardHeader className="pb-3 bg-purple-600">
         <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
           <ArrowRightLeft className="h-5 w-5" />
           Conversor Rápido
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-6 space-y-4 bg-white">
+      <CardContent className="pt-6 space-y-4 bg-white dark:bg-slate-900 transition-colors">
         <div className="space-y-6">
           {converters.map((row) => (
             <div key={row.id} className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-slate-500 font-medium">
+                <Label className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                   Horas Decimais
                 </Label>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => removeConverter(row.id)}
-                  className="text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
+                  className="text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-all"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -100,7 +100,7 @@ const DecimalConverter = () => {
                 value={row.decimal}
                 onChange={(e) => updateFromDecimal(row.id, e.target.value)}
                 onFocus={(e) => e.target.select()}
-                className="h-14 text-xl font-semibold rounded-xl border-2 border-purple-200 bg-purple-50/50 focus:bg-white focus:border-purple-400 transition-all text-center hover:border-purple-300 hover:shadow-sm"
+                className="h-14 text-xl font-semibold rounded-xl border-2 border-purple-200 dark:border-purple-500/30 bg-purple-50/50 dark:bg-purple-500/5 focus:bg-white dark:focus:bg-slate-900 focus:border-purple-400 dark:focus:border-purple-500 transition-all text-center hover:border-purple-300 dark:hover:border-purple-400 hover:shadow-sm text-slate-800 dark:text-white"
                 placeholder="0.0"
               />
 
@@ -112,7 +112,7 @@ const DecimalConverter = () => {
 
               <div className="flex items-center gap-2">
                 <div className="flex-1">
-                  <Label className="text-xs text-slate-500 mb-2 block font-medium">
+                  <Label className="text-xs text-slate-500 dark:text-slate-400 mb-2 block font-medium">
                     Horas
                   </Label>
                   <Input
@@ -122,13 +122,13 @@ const DecimalConverter = () => {
                       updateFromTime(row.id, e.target.value, row.minutes)
                     }
                     onFocus={(e) => e.target.select()}
-                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200 bg-slate-50 focus:bg-white focus:border-slate-300 transition-all text-center"
+                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 focus:bg-white dark:focus:bg-slate-900 focus:border-slate-300 dark:focus:border-slate-700 transition-all text-center text-slate-800 dark:text-white"
                     placeholder="0"
                   />
                 </div>
-                <div className="pt-6 text-2xl text-slate-300 font-bold">:</div>
+                <div className="pt-6 text-2xl text-slate-300 dark:text-slate-700 font-bold">:</div>
                 <div className="flex-1">
-                  <Label className="text-xs text-slate-500 mb-2 block font-medium">
+                  <Label className="text-xs text-slate-500 dark:text-slate-400 mb-2 block font-medium">
                     Minutos
                   </Label>
                   <Input
@@ -138,7 +138,7 @@ const DecimalConverter = () => {
                       updateFromTime(row.id, row.hours, e.target.value)
                     }
                     onFocus={(e) => e.target.select()}
-                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200 bg-slate-50 focus:bg-white focus:border-slate-300 transition-all text-center"
+                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 focus:bg-white dark:focus:bg-slate-900 focus:border-slate-300 dark:focus:border-slate-700 transition-all text-center text-slate-800 dark:text-white"
                     placeholder="00"
                   />
                 </div>

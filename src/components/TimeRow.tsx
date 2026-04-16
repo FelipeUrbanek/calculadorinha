@@ -111,11 +111,11 @@ const TimeRow = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2 }}
-      className={`flex flex-wrap sm:flex-nowrap items-center gap-4 py-3 px-4 rounded-xl border ${bgColor} ${borderColor} transition-colors`}
+      className={`grid grid-cols-[1fr_1fr_auto] sm:flex sm:flex-nowrap items-start sm:items-center gap-3 sm:gap-4 py-3 px-3 sm:px-4 rounded-xl border ${bgColor} dark:bg-slate-800/50 ${borderColor} dark:border-slate-700/50 transition-colors`}
       data-row-index={index}
     >
       {/* Operation Toggle */}
-      <div className="flex items-center gap-2 min-w-[140px]">
+      <div className="col-span-3 sm:col-auto flex items-center gap-2 min-w-[140px]">
         <button
           onClick={() => toggleOperation(!isAddition)}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all shadow-sm hover:scale-105 active:scale-95 ${
@@ -134,8 +134,8 @@ const TimeRow = ({
       </div>
 
       {/* Hours Input */}
-      <div className="flex-1 min-w-[100px]">
-        <Label className="text-xs text-slate-500 mb-1 block">Horas</Label>
+      <div className="col-span-1 sm:col-auto flex-1 min-w-0 sm:min-w-[100px]">
+        <Label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Horas</Label>
         <Input
           ref={hoursInputRef}
           type="number"
@@ -144,7 +144,7 @@ const TimeRow = ({
           onChange={(e) => handleHoursChange(e.target.value)}
           onKeyDown={(e) => handleKeyDown(e, index, "hours")}
           onFocus={(e) => e.target.select()}
-          className="h-12 text-lg rounded-xl border-slate-200 bg-white focus:ring-2 focus:ring-slate-200 transition-all text-center hover:border-slate-300"
+          className="h-12 text-lg rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-slate-200 dark:focus:ring-slate-700 transition-all text-center text-slate-800 dark:text-white hover:border-slate-300 dark:hover:border-slate-600"
           placeholder="0"
           data-input-type="hours"
           data-row-index={index}
@@ -152,8 +152,8 @@ const TimeRow = ({
       </div>
 
       {/* Minutes Input */}
-      <div className="flex-1 min-w-[100px]">
-        <Label className="text-xs text-slate-500 mb-1 block">Minutos</Label>
+      <div className="col-span-1 sm:col-auto flex-1 min-w-0 sm:min-w-[100px]">
+        <Label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Minutos</Label>
         <Input
           ref={minutesInputRef}
           type="number"
@@ -163,7 +163,7 @@ const TimeRow = ({
           onChange={(e) => handleMinutesChange(e.target.value)}
           onKeyDown={(e) => handleKeyDown(e, index, "minutes")}
           onFocus={(e) => e.target.select()}
-          className="h-12 text-lg rounded-xl border-slate-200 bg-white focus:ring-2 focus:ring-slate-200 transition-all text-center hover:border-slate-300"
+          className="h-12 text-lg rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-slate-200 dark:focus:ring-slate-700 transition-all text-center text-slate-800 dark:text-white hover:border-slate-300 dark:hover:border-slate-600"
           placeholder="00"
           data-input-type="minutes"
           data-row-index={index}
@@ -172,9 +172,9 @@ const TimeRow = ({
 
       {/* Decimal Display */}
       {showDecimal && (
-        <div className="flex-1 min-w-[100px]">
-          <Label className="text-xs text-slate-500 mb-1 block">Decimal</Label>
-          <div className="h-12 flex items-center justify-center px-3 text-lg font-medium text-slate-600 bg-slate-50 rounded-xl border border-transparent transition-all hover:bg-slate-100">
+        <div className="col-span-2 sm:col-auto flex-1 min-w-0 sm:min-w-[100px] mt-1 sm:mt-0">
+          <Label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Decimal</Label>
+          <div className="h-12 flex items-center justify-center px-3 text-lg font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-transparent transition-all hover:bg-slate-100 dark:hover:bg-slate-800">
             {(
               entry.hours +
               Math.ceil((entry.minutes / 60) * 100) / 100
@@ -184,7 +184,7 @@ const TimeRow = ({
       )}
 
       {/* Delete Button */}
-      <div className="pt-5">
+      <div className="col-span-1 sm:col-auto pt-5 sm:pt-5 pb-1 sm:pb-0 flex justify-center items-end sm:items-start self-stretch sm:self-auto">
         <Button
           onClick={() => onRemove(entry.id)}
           disabled={!canRemove}
