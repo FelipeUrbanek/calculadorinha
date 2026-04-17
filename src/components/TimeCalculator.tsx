@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { AnimatePresence } from "framer-motion";
+import { Plus, Trash2 } from "lucide-react";
 import TimeRow from "./TimeRow";
 
 export interface TimeEntry {
@@ -132,6 +133,7 @@ const TimeCalculator = ({
               onClick={addTimeEntry}
               className="flex-1 sm:flex-initial bg-slate-600 hover:bg-slate-700 text-white h-12 text-base font-medium transition-all hover:scale-105 active:scale-95"
             >
+              <Plus className="w-5 h-5 mr-1 stroke-[2.5]" />
               Adicionar nova linha
             </Button>
             <Button
@@ -139,6 +141,7 @@ const TimeCalculator = ({
               variant="outline"
               className="h-12 px-4 border-2 border-slate-300 hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all hover:scale-105 active:scale-95"
             >
+              <Trash2 className="w-5 h-5 mr-1 stroke-[2.5]" />
               Limpar
             </Button>
           </div>

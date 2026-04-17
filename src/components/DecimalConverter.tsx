@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRightLeft, Trash2 } from "lucide-react";
+import { ArrowRightLeft, X, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type ConverterRow = {
@@ -74,7 +74,7 @@ const DecimalConverter = () => {
     <Card className="shadow-xl shadow-theme-base/5 border-white/40 dark:border-slate-800/50 overflow-hidden bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl transition-all duration-500 hover:shadow-2xl hover:shadow-theme-base/10 group">
       <CardHeader className="pb-3 bg-theme-base transition-colors duration-500">
         <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-          <ArrowRightLeft className="h-5 w-5" />
+          <ArrowRightLeft className="h-5 w-5 stroke-[2.5]" />
           Conversor Rápido
         </CardTitle>
       </CardHeader>
@@ -92,7 +92,7 @@ const DecimalConverter = () => {
                   onClick={() => removeConverter(row.id)}
                   className="text-slate-400 hover:text-theme-base hover:bg-theme-base/10 dark:hover:bg-theme-base/10 rounded-full transition-all"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <X className="h-4 w-4 stroke-[2.5]" />
                 </Button>
               </div>
               <Input
@@ -106,7 +106,7 @@ const DecimalConverter = () => {
 
               <div className="flex items-center justify-center py-2">
                 <div className="bg-theme-base p-2 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-180">
-                  <ArrowRightLeft className="h-4 w-4 text-white" />
+                  <ArrowRightLeft className="h-4 w-4 text-white stroke-[2.5]" />
                 </div>
               </div>
 
@@ -151,6 +151,7 @@ const DecimalConverter = () => {
             onClick={addConverter}
             className="w-full bg-slate-600 hover:bg-slate-700 text-white h-11 font-medium transition-all hover:scale-105 active:scale-95"
           >
+            <Plus className="w-5 h-5 mr-1 stroke-[2.5]" />
             Adicionar conversão
           </Button>
         </div>

@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Trash2, Plus, Minus } from "lucide-react";
+import { X, Plus, Minus } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { TimeEntry } from "./TimeCalculator";
 
@@ -126,9 +126,9 @@ const TimeRow = ({
           }`}
         >
           {isAddition ? (
-            <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
+            <Plus className="h-4 w-4 stroke-[2.5] transition-transform group-hover:rotate-90" />
           ) : (
-            <Minus className="h-4 w-4" />
+            <Minus className="h-4 w-4 stroke-[2.5]" />
           )}
           {isAddition ? "Somar" : "Subtrair"}
         </button>
@@ -195,7 +195,7 @@ const TimeRow = ({
           data-action="remove-row"
           data-row-index={index}
         >
-          <Trash2 className="h-5 w-5" />
+          <X className="h-5 w-5 stroke-[2.5]" />
         </Button>
       </div>
     </motion.div>

@@ -1,5 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { AnimatedTime } from "./AnimatedTime";
+import { useToast } from "@/hooks/use-toast";
+import { Copy } from "lucide-react";
 
 interface TimeResultsProps {
   finalResult: { hours: number; minutes: number; isNegative: boolean };
@@ -31,6 +34,16 @@ const TimeResults = ({
   subtractionDecimal,
   showDecimal,
 }: TimeResultsProps) => {
+  const { toast } = useToast();
+
+  const handleCopy = (value: string) => {
+    navigator.clipboard.writeText(value);
+    toast({
+      title: "Texto copiado",
+      duration: 2000,
+    });
+  };
+
   return (
     <Card className="shadow-xl shadow-theme-base/5 bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl border-white/40 dark:border-slate-800/50 overflow-hidden relative transition-all duration-500 hover:shadow-2xl hover:shadow-theme-base/20 group">
       <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-theme-gradient-start via-purple-500 to-theme-gradient-end"></div>
@@ -42,10 +55,17 @@ const TimeResults = ({
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Main Result */}
-        <div className="text-center py-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/50 relative overflow-hidden group transition-colors">
+        <div 
+          onClick={() => handleCopy(formatTime(finalResult))}
+          className="text-center py-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/50 relative overflow-hidden group transition-all hover:border-theme-base/30 dark:hover:border-theme-base/30 cursor-pointer active:scale-[0.98]"
+          title="Clique para copiar"
+        >
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <Copy className="h-5 w-5 text-slate-400 dark:text-slate-500 stroke-[2.5]" />
+          </div>
           <div className="absolute inset-0 bg-gradient-to-br from-theme-gradient-start/5 to-purple-500/5 dark:from-indigo-500/10 dark:to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div className="relative text-7xl font-black text-slate-800 dark:text-white tracking-tighter drop-shadow-sm transition-colors">
-            {formatTime(finalResult)}
+            <AnimatedTime value={formatTime(finalResult)} />
           </div>
           {showDecimal && (
             <div className="relative mt-4 inline-block bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-700 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
@@ -58,10 +78,17 @@ const TimeResults = ({
 
         {/* Details */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col justify-center p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl border border-emerald-100 dark:border-emerald-500/20 transition-all duration-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 hover:-translate-y-1 hover:shadow-md cursor-default">
+          <div 
+            onClick={() => handleCopy(formatTime(additionResult))}
+            className="flex flex-col justify-center p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl border border-emerald-100 dark:border-emerald-500/20 transition-all duration-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 hover:-translate-y-1 hover:shadow-md cursor-pointer group/item relative"
+            title="Clique para copiar"
+          >
+            <div className="absolute top-3 right-3 opacity-0 group-hover/item:opacity-100 transition-opacity">
+              <Copy className="h-4 w-4 text-emerald-500/50 stroke-[2.5]" />
+            </div>
             <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Somado</span>
             <div className="font-bold text-emerald-900 dark:text-white text-xl">
-              {formatTime(additionResult)}
+              <AnimatedTime value={formatTime(additionResult)} />
             </div>
             {showDecimal && (
               <div className="text-[10px] text-emerald-600 dark:text-emerald-500/70 mt-1 font-medium select-none">
@@ -69,10 +96,17 @@ const TimeResults = ({
               </div>
             )}
           </div>
-          <div className="flex flex-col justify-center p-4 bg-rose-50 dark:bg-rose-500/10 rounded-xl border border-rose-100 dark:border-rose-500/20 transition-all duration-300 hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:-translate-y-1 hover:shadow-md cursor-default">
+          <div 
+            onClick={() => handleCopy(formatTime(subtractionResult))}
+            className="flex flex-col justify-center p-4 bg-rose-50 dark:bg-rose-500/10 rounded-xl border border-rose-100 dark:border-rose-500/20 transition-all duration-300 hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:-translate-y-1 hover:shadow-md cursor-pointer group/item relative"
+            title="Clique para copiar"
+          >
+            <div className="absolute top-3 right-3 opacity-0 group-hover/item:opacity-100 transition-opacity">
+              <Copy className="h-4 w-4 text-rose-500/50 stroke-[2.5]" />
+            </div>
             <span className="text-rose-700 dark:text-rose-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Subtraído</span>
             <div className="font-bold text-rose-900 dark:text-white text-xl">
-              {formatTime(subtractionResult)}
+              <AnimatedTime value={formatTime(subtractionResult)} />
             </div>
             {showDecimal && (
               <div className="text-[10px] text-rose-600 dark:text-rose-500/70 mt-1 font-medium select-none">
