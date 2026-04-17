@@ -105,7 +105,7 @@ export default function Index() {
   // Preloader
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-white dark:bg-slate-950 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50">
         <div className="text-center">
           <div className="relative mb-8">
             <div className="w-16 h-16 border-4 border-slate-200 dark:border-slate-800 border-t-theme-base rounded-full animate-spin mx-auto"></div>
@@ -120,26 +120,33 @@ export default function Index() {
   }
 
   return (
-    <div id="page-scroll" className="min-h-screen bg-gray-50 dark:bg-slate-950 fixed inset-0 w-full overflow-y-auto transition-colors duration-300">
-      <div className="container mx-auto py-4 sm:py-8 px-4 max-w-7xl">
+    <div id="page-scroll" className="min-h-screen bg-slate-50 dark:bg-slate-950 fixed inset-0 w-full overflow-y-auto transition-colors duration-300">
+      {/* Background Orbs for Glassmorphism */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-theme-base/20 dark:bg-theme-base/10 blur-[100px] mix-blend-multiply dark:mix-blend-screen transition-colors duration-500" />
+        <div className="absolute top-[20%] -right-[10%] w-[35%] h-[35%] rounded-full bg-theme-gradient-end/20 dark:bg-theme-gradient-end/10 blur-[100px] mix-blend-multiply dark:mix-blend-screen transition-colors duration-500" />
+        <div className="absolute -bottom-[10%] left-[20%] w-[50%] h-[50%] rounded-full bg-theme-gradient-start/20 dark:bg-theme-gradient-start/10 blur-[120px] mix-blend-multiply dark:mix-blend-screen transition-colors duration-500" />
+      </div>
+
+      <div className="container mx-auto py-4 sm:py-8 px-4 max-w-7xl relative z-10">
         {/* Header */}
-        <header className="bg-white dark:bg-slate-900 shadow-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 mb-4 sm:mb-8 border border-slate-100 dark:border-slate-800 transition-colors">
+        <header className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl shadow-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 mb-4 sm:mb-8 border border-white/40 dark:border-slate-800/50 transition-colors">
           <div className="flex justify-between items-center gap-2">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="bg-gradient-to-br from-theme-gradient-start to-theme-gradient-end p-2 sm:p-2.5 rounded-xl shadow-md shrink-0">
-                <img src="/logo_calculadorinha.svg" alt="Calculadorinha" className="h-5 w-5 sm:h-6 sm:w-6" />
+            <div className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
+              <div className="bg-gradient-to-br from-theme-gradient-start to-theme-gradient-end p-2 sm:p-2.5 rounded-xl shadow-md shrink-0 transition-transform duration-500 group-hover:rotate-[360deg] group-hover:scale-110">
+                <img src="/logo_calculadorinha.svg" alt="Calculadorinha" className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-500" />
               </div>
               <div className="min-w-0">
-                <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-theme-gradient-start to-theme-gradient-end bg-clip-text text-transparent truncate pb-0.5">
+                <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-theme-gradient-start to-theme-gradient-end bg-clip-text text-transparent truncate pb-0.5 transition-all duration-300 group-hover:opacity-80">
                   Calculadorinha
                 </h1>
-                <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate hidden sm:block">Calcule suas horas facilmente</p>
+                <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate hidden sm:block transition-all duration-300 group-hover:translate-x-1">Calcule suas horas facilmente</p>
               </div>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={() => setShowDecimal(!showDecimal)}
-                className="flex items-center gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95 border border-slate-200 dark:border-slate-700"
+                className="flex items-center gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-white/50 dark:bg-slate-800/50 hover:bg-white/80 dark:hover:bg-slate-700/50 backdrop-blur-sm transition-all active:scale-95 border border-white/50 dark:border-slate-700/50 shadow-sm"
               >
                 <div className={`w-8 sm:w-10 h-5 sm:h-6 rounded-full transition-all relative shrink-0 ${showDecimal ? 'bg-purple-600' : 'bg-slate-300 dark:bg-slate-600'}`}>
                   <div className={`absolute top-1 sm:top-1 w-3 sm:w-4 h-3 sm:h-4 rounded-full bg-white shadow-sm transition-all duration-300 ${showDecimal ? 'translate-x-4 sm:translate-x-5' : 'translate-x-1'}`} />

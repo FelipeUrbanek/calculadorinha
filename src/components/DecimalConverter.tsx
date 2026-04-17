@@ -71,14 +71,14 @@ const DecimalConverter = () => {
   };
 
   return (
-    <Card className="shadow-sm border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 transition-colors">
+    <Card className="shadow-xl shadow-theme-base/5 border-white/40 dark:border-slate-800/50 overflow-hidden bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl transition-all duration-500 hover:shadow-2xl hover:shadow-theme-base/10 group">
       <CardHeader className="pb-3 bg-theme-base transition-colors duration-500">
         <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
           <ArrowRightLeft className="h-5 w-5" />
           Conversor Rápido
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-6 space-y-4 bg-white dark:bg-slate-900 transition-colors">
+      <CardContent className="pt-6 space-y-4 bg-transparent transition-colors">
         <div className="space-y-6">
           {converters.map((row) => (
             <div key={row.id} className="space-y-4">
@@ -122,7 +122,7 @@ const DecimalConverter = () => {
                       updateFromTime(row.id, e.target.value, row.minutes)
                     }
                     onFocus={(e) => e.target.select()}
-                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 focus:bg-white dark:focus:bg-slate-900 focus:border-slate-300 dark:focus:border-slate-700 transition-all text-center text-slate-800 dark:text-white"
+                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm focus:bg-white dark:focus:bg-slate-900 focus:border-slate-300 dark:focus:border-slate-600 transition-all text-center text-slate-800 dark:text-white"
                     placeholder="0"
                   />
                 </div>
@@ -138,7 +138,7 @@ const DecimalConverter = () => {
                       updateFromTime(row.id, row.hours, e.target.value)
                     }
                     onFocus={(e) => e.target.select()}
-                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 focus:bg-white dark:focus:bg-slate-900 focus:border-slate-300 dark:focus:border-slate-700 transition-all text-center text-slate-800 dark:text-white"
+                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm focus:bg-white dark:focus:bg-slate-900 focus:border-slate-300 dark:focus:border-slate-600 transition-all text-center text-slate-800 dark:text-white"
                     placeholder="00"
                   />
                 </div>

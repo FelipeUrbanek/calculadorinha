@@ -32,7 +32,7 @@ const TimeResults = ({
   showDecimal,
 }: TimeResultsProps) => {
   return (
-    <Card className="shadow-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 backdrop-blur-xl overflow-hidden relative transition-colors">
+    <Card className="shadow-xl shadow-theme-base/5 bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl border-white/40 dark:border-slate-800/50 overflow-hidden relative transition-all duration-500 hover:shadow-2xl hover:shadow-theme-base/20 group">
       <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-theme-gradient-start via-purple-500 to-theme-gradient-end"></div>
       <CardHeader className="pb-4 border-b border-slate-100 dark:border-slate-800/50">
         <CardTitle className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
@@ -58,7 +58,7 @@ const TimeResults = ({
 
         {/* Details */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col justify-center p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl border border-emerald-100 dark:border-emerald-500/20 transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20">
+          <div className="flex flex-col justify-center p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl border border-emerald-100 dark:border-emerald-500/20 transition-all duration-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 hover:-translate-y-1 hover:shadow-md cursor-default">
             <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Somado</span>
             <div className="font-bold text-emerald-900 dark:text-white text-xl">
               {formatTime(additionResult)}
@@ -69,7 +69,7 @@ const TimeResults = ({
               </div>
             )}
           </div>
-          <div className="flex flex-col justify-center p-4 bg-rose-50 dark:bg-rose-500/10 rounded-xl border border-rose-100 dark:border-rose-500/20 transition-all hover:bg-rose-100 dark:hover:bg-rose-500/20">
+          <div className="flex flex-col justify-center p-4 bg-rose-50 dark:bg-rose-500/10 rounded-xl border border-rose-100 dark:border-rose-500/20 transition-all duration-300 hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:-translate-y-1 hover:shadow-md cursor-default">
             <span className="text-rose-700 dark:text-rose-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Subtraído</span>
             <div className="font-bold text-rose-900 dark:text-white text-xl">
               {formatTime(subtractionResult)}

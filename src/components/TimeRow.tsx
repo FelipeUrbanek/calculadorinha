@@ -115,10 +115,11 @@ const TimeRow = ({
       data-row-index={index}
     >
       {/* Operation Toggle */}
-      <div className="col-span-3 sm:col-auto flex items-center gap-2 min-w-[140px]">
+      <div className="col-span-3 sm:col-auto flex flex-col min-w-[140px]">
+        <Label className="text-xs text-transparent mb-1 hidden sm:block select-none pointer-events-none" aria-hidden="true">&nbsp;</Label>
         <button
           onClick={() => toggleOperation(!isAddition)}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all shadow-sm hover:scale-105 active:scale-95 ${
+          className={`flex items-center justify-center gap-2 px-4 py-2 sm:py-0 w-full sm:w-auto h-auto sm:h-12 rounded-lg font-medium text-sm transition-all shadow-sm hover:scale-105 active:scale-95 ${
             isAddition
               ? "bg-green-500 text-white hover:bg-green-600"
               : "bg-theme-base text-white hover:bg-theme-base/90"

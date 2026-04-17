@@ -79,7 +79,7 @@ const TimeCalculator = ({
   };
 
   return (
-    <Card className="shadow-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-full transition-colors">
+    <Card className="shadow-xl shadow-theme-base/5 border-white/40 dark:border-slate-800/50 bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl h-full transition-all duration-500 hover:shadow-2xl hover:shadow-theme-base/10">
       <CardHeader className="pb-4">
         <div
           className={`hidden sm:grid ${
