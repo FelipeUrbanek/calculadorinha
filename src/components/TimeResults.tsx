@@ -33,7 +33,7 @@ const TimeResults = ({
 }: TimeResultsProps) => {
   return (
     <Card className="shadow-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 backdrop-blur-xl overflow-hidden relative transition-colors">
-      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-red-500 via-purple-500 to-pink-500"></div>
+      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-theme-gradient-start via-purple-500 to-theme-gradient-end"></div>
       <CardHeader className="pb-4 border-b border-slate-100 dark:border-slate-800/50">
         <CardTitle className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
@@ -43,7 +43,7 @@ const TimeResults = ({
       <CardContent className="space-y-6">
         {/* Main Result */}
         <div className="text-center py-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/50 relative overflow-hidden group transition-colors">
-          <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-purple-500/5 dark:from-indigo-500/10 dark:to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-theme-gradient-start/5 to-purple-500/5 dark:from-indigo-500/10 dark:to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div className="relative text-7xl font-black text-slate-800 dark:text-white tracking-tighter drop-shadow-sm transition-colors">
             {formatTime(finalResult)}
           </div>

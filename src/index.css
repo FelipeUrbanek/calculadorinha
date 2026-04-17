@@ -92,6 +92,41 @@ All colors MUST be HSL.
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+  :root, .theme-ruby {
+    /* Ruby (Red-Pink) */
+    --theme-base: 0 84.2% 60.2%;
+    --theme-gradient-start: 0 84.2% 60.2%;
+    --theme-gradient-end: 330 81.3% 60.4%;
+  }
+  
+  .theme-ocean {
+    /* Ocean (Blue-Teal) */
+    --theme-base: 221.2 83.2% 53.3%;
+    --theme-gradient-start: 221.2 83.2% 53.3%;
+    --theme-gradient-end: 171.3 76.6% 41.2%;
+  }
+
+  .theme-nature {
+    /* Nature (Green-Emerald) */
+    --theme-base: 142.1 70.6% 45.3%;
+    --theme-gradient-start: 142.1 70.6% 45.3%;
+    --theme-gradient-end: 158.1 64.4% 52.2%;
+  }
+
+  .theme-royal {
+    /* Royal (Purple-Indigo) */
+    --theme-base: 270.7 91% 65.1%;
+    --theme-gradient-start: 270.7 91% 65.1%;
+    --theme-gradient-end: 239.3 83.5% 66.5%;
+  }
+
+  .theme-sunset {
+    /* Sunset (Orange-Yellow) */
+    --theme-base: 24.6 95% 53.1%;
+    --theme-gradient-start: 24.6 95% 53.1%;
+    --theme-gradient-end: 45.4 93.4% 47.5%;
+  }
 }
 
 @layer base {

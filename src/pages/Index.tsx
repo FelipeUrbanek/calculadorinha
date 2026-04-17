@@ -3,7 +3,7 @@ import TimeCalculator, { TimeEntry } from "@/components/TimeCalculator";
 import TimeResults from "@/components/TimeResults";
 import DecimalConverter from "@/components/DecimalConverter";
 import AILawAssistant from "@/components/AILawAssistant";
-import { ModeToggle } from "@/components/ModeToggle";
+import { ThemePicker } from "@/components/ThemePicker";
 
 // Chaves para o localStorage
 const STORAGE_KEYS = {
@@ -108,9 +108,9 @@ export default function Index() {
       <div className="fixed inset-0 bg-white dark:bg-slate-950 flex items-center justify-center z-50">
         <div className="text-center">
           <div className="relative mb-8">
-            <div className="w-16 h-16 border-4 border-slate-200 dark:border-slate-800 border-t-red-500 rounded-full animate-spin mx-auto"></div>
+            <div className="w-16 h-16 border-4 border-slate-200 dark:border-slate-800 border-t-theme-base rounded-full animate-spin mx-auto"></div>
           </div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent mb-2">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-theme-gradient-start to-theme-gradient-end bg-clip-text text-transparent mb-2">
             Calculadorinha
           </h1>
           <p className="text-slate-400 dark:text-slate-500 text-sm">Preparando tudo para você...</p>
@@ -126,11 +126,11 @@ export default function Index() {
         <header className="bg-white dark:bg-slate-900 shadow-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 mb-4 sm:mb-8 border border-slate-100 dark:border-slate-800 transition-colors">
           <div className="flex justify-between items-center gap-2">
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="bg-gradient-to-br from-red-500 to-pink-500 p-2 sm:p-2.5 rounded-xl shadow-md shrink-0">
+              <div className="bg-gradient-to-br from-theme-gradient-start to-theme-gradient-end p-2 sm:p-2.5 rounded-xl shadow-md shrink-0">
                 <img src="/logo_calculadorinha.svg" alt="Calculadorinha" className="h-5 w-5 sm:h-6 sm:w-6" />
               </div>
               <div className="min-w-0">
-                <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent truncate pb-0.5">
+                <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-theme-gradient-start to-theme-gradient-end bg-clip-text text-transparent truncate pb-0.5">
                   Calculadorinha
                 </h1>
                 <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate hidden sm:block">Calcule suas horas facilmente</p>
@@ -146,7 +146,6 @@ export default function Index() {
                 </div>
                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300 hidden sm:inline">Mostrar decimais</span>
               </button>
-              <ModeToggle />
             </div>
           </div>
         </header>
@@ -184,7 +183,7 @@ export default function Index() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex flex-col items-center md:items-start">
               <div className="flex items-center gap-2 mb-2">
-                <div className="bg-gradient-to-br from-red-500 to-pink-500 p-1.5 rounded-lg shadow-sm">
+                <div className="bg-gradient-to-br from-theme-gradient-start to-theme-gradient-end p-1.5 rounded-lg shadow-sm">
                   <img src="/logo_calculadorinha.svg" alt="Calculadorinha" className="h-4 w-4" />
                 </div>
                 <span className="font-bold text-slate-800 dark:text-slate-200 tracking-tight">Calculadorinha</span>
@@ -196,12 +195,12 @@ export default function Index() {
             
             <div className="flex flex-col items-center md:items-end text-xs text-slate-500 dark:text-slate-400 gap-1 mt-4 md:mt-0">
               <p>
-                Desenvolvido com <span className="text-red-500">♥</span> por{" "}
+                Desenvolvido com <span className="text-theme-base">♥</span> por{" "}
                 <a
                   href="https://felipeurbanek.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-slate-800 dark:text-slate-200 hover:text-red-500 dark:hover:text-red-500 transition-colors underline decoration-slate-300 dark:decoration-slate-700 hover:decoration-red-500 underline-offset-4"
+                  className="font-medium text-slate-800 dark:text-slate-200 hover:text-theme-base dark:hover:text-theme-base transition-colors underline decoration-slate-300 dark:decoration-slate-700 hover:decoration-theme-base underline-offset-4"
                 >
                   Felipe Urbanek
                 </a>
@@ -212,7 +211,7 @@ export default function Index() {
         </footer>
       </div>
 
-      {/* Botão flutuante unificado da IA */}
+      <ThemePicker />
       <AILawAssistant />
     </div>
   );

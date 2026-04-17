@@ -72,7 +72,7 @@ const DecimalConverter = () => {
 
   return (
     <Card className="shadow-sm border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 transition-colors">
-      <CardHeader className="pb-3 bg-purple-600">
+      <CardHeader className="pb-3 bg-theme-base transition-colors duration-500">
         <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
           <ArrowRightLeft className="h-5 w-5" />
           Conversor Rápido
@@ -90,7 +90,7 @@ const DecimalConverter = () => {
                   variant="ghost"
                   size="icon"
                   onClick={() => removeConverter(row.id)}
-                  className="text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-all"
+                  className="text-slate-400 hover:text-theme-base hover:bg-theme-base/10 dark:hover:bg-theme-base/10 rounded-full transition-all"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -100,12 +100,12 @@ const DecimalConverter = () => {
                 value={row.decimal}
                 onChange={(e) => updateFromDecimal(row.id, e.target.value)}
                 onFocus={(e) => e.target.select()}
-                className="h-14 text-xl font-semibold rounded-xl border-2 border-purple-200 dark:border-purple-500/30 bg-purple-50/50 dark:bg-purple-500/5 focus:bg-white dark:focus:bg-slate-900 focus:border-purple-400 dark:focus:border-purple-500 transition-all text-center hover:border-purple-300 dark:hover:border-purple-400 hover:shadow-sm text-slate-800 dark:text-white"
+                className="h-14 text-xl font-semibold rounded-xl border-2 border-theme-base/20 dark:border-theme-base/30 bg-theme-base/5 dark:bg-theme-base/10 focus:bg-white dark:focus:bg-slate-900 focus:border-theme-base/60 dark:focus:border-theme-base/50 transition-all text-center hover:border-theme-base/40 dark:hover:border-theme-base/40 hover:shadow-sm text-slate-800 dark:text-white"
                 placeholder="0.0"
               />
 
               <div className="flex items-center justify-center py-2">
-                <div className="bg-purple-600 p-2 rounded-full transition-transform hover:scale-110 hover:rotate-180">
+                <div className="bg-theme-base p-2 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-180">
                   <ArrowRightLeft className="h-4 w-4 text-white" />
                 </div>
               </div>

@@ -121,7 +121,7 @@ const TimeRow = ({
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all shadow-sm hover:scale-105 active:scale-95 ${
             isAddition
               ? "bg-green-500 text-white hover:bg-green-600"
-              : "bg-red-500 text-white hover:bg-red-600"
+              : "bg-theme-base text-white hover:bg-theme-base/90"
           }`}
         >
           {isAddition ? (
@@ -190,7 +190,7 @@ const TimeRow = ({
           disabled={!canRemove}
           variant="ghost"
           size="icon"
-          className="text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all hover:scale-110 active:scale-90"
+          className="text-slate-400 hover:text-theme-base hover:bg-theme-base/10 rounded-full transition-all hover:scale-110 active:scale-90"
           data-action="remove-row"
           data-row-index={index}
         >
