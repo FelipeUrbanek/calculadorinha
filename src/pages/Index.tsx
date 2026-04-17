@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import TimeCalculator, { TimeEntry } from "@/components/TimeCalculator";
 import TimeResults from "@/components/TimeResults";
 import DecimalConverter from "@/components/DecimalConverter";
-import { Clock } from "lucide-react";
 import AILawAssistant from "@/components/AILawAssistant";
 import { ModeToggle } from "@/components/ModeToggle";
 
@@ -128,7 +127,7 @@ export default function Index() {
           <div className="flex justify-between items-center gap-2">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="bg-gradient-to-br from-red-500 to-pink-500 p-2 sm:p-2.5 rounded-xl shadow-md shrink-0">
-                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                <img src="/logo_calculadorinha.svg" alt="Calculadorinha" className="h-5 w-5 sm:h-6 sm:w-6" />
               </div>
               <div className="min-w-0">
                 <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent truncate pb-0.5">
@@ -186,7 +185,7 @@ export default function Index() {
             <div className="flex flex-col items-center md:items-start">
               <div className="flex items-center gap-2 mb-2">
                 <div className="bg-gradient-to-br from-red-500 to-pink-500 p-1.5 rounded-lg shadow-sm">
-                  <Clock className="h-4 w-4 text-white" />
+                  <img src="/logo_calculadorinha.svg" alt="Calculadorinha" className="h-4 w-4" />
                 </div>
                 <span className="font-bold text-slate-800 dark:text-slate-200 tracking-tight">Calculadorinha</span>
               </div>
