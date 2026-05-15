@@ -18,14 +18,13 @@ export function ThemePicker() {
   const { colorTheme, setColorTheme, theme, setTheme } = useTheme();
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[100]">
-      <Popover>
-        <PopoverTrigger asChild>
-          <button className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-slate-900 border-2 border-theme-base/20 hover:bg-black text-white shadow-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-90 group relative cursor-pointer">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-theme-gradient-start/20 to-theme-gradient-end/20 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
-            <Palette className="h-5 w-5 sm:h-6 sm:w-6 text-theme-base relative z-10" />
-          </button>
-        </PopoverTrigger>
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className="h-16 w-16 rounded-full bg-white dark:bg-slate-900 border-2 border-theme-base hover:bg-slate-50 dark:hover:bg-black text-slate-900 dark:text-white shadow-[0_0_30px_rgba(var(--theme-base-rgb),0.3)] flex items-center justify-center transition-all hover:scale-110 active:scale-95 group relative cursor-pointer outline-none">
+          <div className="absolute -inset-1 bg-gradient-to-r from-theme-gradient-start/20 to-theme-gradient-end/20 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
+          <Palette className="h-7 w-7 text-theme-base relative z-10 drop-shadow-[0_0_8px_rgba(var(--theme-base-rgb),0.4)]" />
+        </button>
+      </PopoverTrigger>
         <PopoverContent
           side="top"
           align="start"
@@ -83,7 +82,6 @@ export function ThemePicker() {
             </div>
           </div>
         </PopoverContent>
-      </Popover>
-    </div>
+    </Popover>
   );
 }
