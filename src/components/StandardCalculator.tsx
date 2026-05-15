@@ -139,30 +139,30 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
   };
 
   return (
-    <Card className="relative w-full h-[310px] flex flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-none overflow-hidden shadow-none rounded-[2rem] ring-1 ring-slate-200 dark:ring-white/5 transition-colors duration-300">
+    <Card className="relative w-full h-[310px] flex flex-col bg-background text-foreground border-none overflow-hidden shadow-none rounded-[2rem] ring-1 ring-border/50 transition-colors duration-300">
       
       {/* Memorial Overlay */}
       {showMemorial && (
-        <div className="absolute inset-0 z-[100] bg-white dark:bg-slate-950 flex flex-col animate-in slide-in-from-bottom duration-300">
-          <div className="px-4 py-2 border-b border-slate-100 dark:border-white/5 flex items-center justify-between bg-slate-50 dark:bg-black/20">
+        <div className="absolute inset-0 z-[100] bg-background flex flex-col animate-in slide-in-from-bottom duration-300">
+          <div className="px-4 py-2 border-b border-border flex items-center justify-between bg-secondary/50">
             <span className="text-[9px] font-black uppercase tracking-widest text-theme-base">Histórico</span>
-            <button onClick={() => setShowMemorial(false)} className="p-1 hover:bg-theme-base/10 rounded-full transition-all text-slate-500">
+            <button onClick={() => setShowMemorial(false)} className="p-1 hover:bg-theme-base/10 rounded-full transition-all text-muted-foreground">
               <X className="w-4 h-4" />
             </button>
           </div>
           
-          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 custom-pip-scrollbar bg-slate-50/50 dark:bg-black/20">
+          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 custom-pip-scrollbar bg-secondary/30">
             {memorial.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full opacity-30 gap-2">
-                <History className="w-8 h-8 text-slate-300" />
-                <div className="text-[9px] font-black tracking-widest uppercase text-slate-400">Sem registros</div>
+                <History className="w-8 h-8 text-muted-foreground" />
+                <div className="text-[9px] font-black tracking-widest uppercase text-muted-foreground">Sem registros</div>
               </div>
             ) : (
               memorial.map((item, i) => {
                 const [expr, res] = item.split(' = ');
                 return (
-                  <div key={i} className="group relative flex flex-col items-end py-2 border-b border-slate-200/50 dark:border-white/5 last:border-0">
-                    <div className="text-[8px] font-bold font-mono text-slate-400 mb-0.5 break-all text-right">{expr} =</div>
+                  <div key={i} className="group relative flex flex-col items-end py-2 border-b border-border/50 last:border-0">
+                    <div className="text-[8px] font-bold font-mono text-muted-foreground mb-0.5 break-all text-right">{expr} =</div>
                     <div className="flex items-center gap-2">
                       <button 
                         onClick={() => copyToClipboard(res)}
@@ -172,7 +172,7 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
                       </button>
                       <button 
                         onClick={() => { setDisplay(res); setEquation(''); setShouldReset(true); setShowMemorial(false); }}
-                        className="text-xl font-black font-mono text-slate-700 dark:text-slate-300 hover:text-theme-base transition-colors"
+                        className="text-xl font-black font-mono text-foreground hover:text-theme-base transition-colors"
                       >
                         {res}
                       </button>
@@ -183,14 +183,14 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
             )}
           </div>
           
-          <div className="p-3 border-t border-slate-100 dark:border-white/5 flex justify-end bg-slate-50 dark:bg-black/20">
+          <div className="p-3 border-t border-border flex justify-end bg-secondary/50">
             {showConfirmClear ? (
               <div className="flex items-center gap-2">
-                <button onClick={() => setShowConfirmClear(false)} className="px-3 py-1.5 bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-slate-300 rounded-lg text-[9px] font-bold">Não</button>
-                <button onClick={handleClearHistory} className="px-3 py-1.5 bg-red-500 text-white rounded-lg text-[9px] font-bold">Zerar</button>
+                <button onClick={() => setShowConfirmClear(false)} className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-[9px] font-bold">Não</button>
+                <button onClick={handleClearHistory} className="px-3 py-1.5 bg-destructive text-destructive-foreground rounded-lg text-[9px] font-bold">Zerar</button>
               </div>
             ) : memorial.length > 0 && (
-              <button onClick={() => setShowConfirmClear(true)} className="p-2 hover:bg-red-500/10 rounded-lg transition-all text-red-500">
+              <button onClick={() => setShowConfirmClear(true)} className="p-2 hover:bg-destructive/10 rounded-lg transition-all text-destructive">
                 <Trash2 className="w-4 h-4" />
               </button>
             )}
@@ -199,7 +199,7 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
       )}
 
       {/* Header */}
-      <div className="px-4 py-2 flex items-center justify-between bg-white dark:bg-black/10 border-b border-slate-100 dark:border-white/5">
+      <div className="px-4 py-2 flex items-center justify-between bg-background/50 border-b border-border">
         <div className="flex items-center gap-2 overflow-hidden flex-1 mr-4">
           <Calculator className="w-3 h-3 text-theme-base flex-shrink-0" />
           {isEditingTitle ? (
@@ -223,13 +223,13 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
         <div className="flex items-center gap-1">
           <button 
             onClick={() => setShowMemorial(!showMemorial)}
-            className="w-5 h-5 rounded-full flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/10 transition-all text-slate-400"
+            className="w-5 h-5 rounded-full flex items-center justify-center hover:bg-secondary transition-all text-muted-foreground"
           >
             <History className="w-3 h-3" />
           </button>
           <button 
             onClick={onClose}
-            className="w-5 h-5 rounded-full flex items-center justify-center hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-all"
+            className="w-5 h-5 rounded-full flex items-center justify-center hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all"
           >
             <X className="w-3 h-3" />
           </button>
@@ -237,36 +237,36 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
       </div>
 
       {/* Result Display */}
-      <div className="flex flex-col justify-end px-5 pt-1.5 pb-1.5 bg-slate-50 dark:bg-black/20 flex-shrink-0 h-[65px]">
+      <div className="flex flex-col justify-end px-5 pt-1.5 pb-1.5 bg-secondary/50 flex-shrink-0 h-[65px]">
         <div className="text-theme-base/40 text-right text-[7px] h-2 font-black truncate mb-0.5 uppercase tracking-tight">{equation}</div>
-        <div key={display} className="text-xl font-black text-right truncate font-mono tracking-tighter text-slate-800 dark:text-slate-200 drop-shadow-[0_0_30px_rgba(var(--theme-base-rgb),0.1)] animate-in fade-in zoom-in-95 duration-200">{display}</div>
+        <div key={display} className="text-xl font-black text-right truncate font-mono tracking-tighter text-foreground drop-shadow-[0_0_30px_rgba(var(--theme-base-rgb),0.1)] animate-in fade-in zoom-in-95 duration-200">{display}</div>
       </div>
 
       {/* Buttons Grid */}
-      <div className="grid grid-cols-4 gap-[1px] p-[1px] bg-slate-100 dark:bg-white/5 flex-1">
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-[8px] font-black text-red-500 hover:bg-red-500/10 active:scale-95 transition-all bg-white dark:bg-black/20" onClick={clear}>AC</Button>
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-[8px] font-black text-slate-500 dark:text-slate-400 hover:bg-theme-base/5 active:scale-95 transition-all bg-white dark:bg-black/20" onClick={toggleSign}>+/-</Button>
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-[8px] font-black text-slate-500 dark:text-slate-400 hover:bg-theme-base/5 active:scale-95 transition-all bg-white dark:bg-black/20" onClick={handlePercent}>%</Button>
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-theme-base hover:bg-theme-base/10 active:scale-95 transition-all bg-slate-50 dark:bg-theme-base/5" onClick={() => handleOperator('÷')}>÷</Button>
+      <div className="grid grid-cols-4 gap-[1px] p-[1px] bg-border/50 flex-1">
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-[8px] font-black text-destructive hover:bg-destructive/10 active:scale-95 transition-all bg-background/50" onClick={clear}>AC</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-[8px] font-black text-muted-foreground hover:bg-theme-base/5 active:scale-95 transition-all bg-background/50" onClick={toggleSign}>+/-</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-[8px] font-black text-muted-foreground hover:bg-theme-base/5 active:scale-95 transition-all bg-background/50" onClick={handlePercent}>%</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-theme-base hover:bg-theme-base/10 active:scale-95 transition-all bg-secondary/50" onClick={() => handleOperator('÷')}>÷</Button>
 
         {[7, 8, 9].map(n => (
-          <Button key={n} variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-slate-700 dark:text-slate-300 hover:bg-theme-base/5 active:scale-95 transition-all bg-white dark:bg-black/20" onClick={() => handleNumber(String(n))}>{n}</Button>
+          <Button key={n} variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-foreground hover:bg-theme-base/5 active:scale-95 transition-all bg-background/50" onClick={() => handleNumber(String(n))}>{n}</Button>
         ))}
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-theme-base hover:bg-theme-base/10 active:scale-95 transition-all bg-slate-50 dark:bg-theme-base/5" onClick={() => handleOperator('×')}>×</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-theme-base hover:bg-theme-base/10 active:scale-95 transition-all bg-secondary/50" onClick={() => handleOperator('×')}>×</Button>
 
         {[4, 5, 6].map(n => (
-          <Button key={n} variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-slate-700 dark:text-slate-300 hover:bg-theme-base/5 active:scale-95 transition-all bg-white dark:bg-black/20" onClick={() => handleNumber(String(n))}>{n}</Button>
+          <Button key={n} variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-foreground hover:bg-theme-base/5 active:scale-95 transition-all bg-background/50" onClick={() => handleNumber(String(n))}>{n}</Button>
         ))}
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-theme-base hover:bg-theme-base/10 active:scale-95 transition-all bg-slate-50 dark:bg-theme-base/5" onClick={() => handleOperator('-')}>-</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-theme-base hover:bg-theme-base/10 active:scale-95 transition-all bg-secondary/50" onClick={() => handleOperator('-')}>-</Button>
 
         {[1, 2, 3].map(n => (
-          <Button key={n} variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-slate-700 dark:text-slate-300 hover:bg-theme-base/5 active:scale-95 transition-all bg-white dark:bg-black/20" onClick={() => handleNumber(String(n))}>{n}</Button>
+          <Button key={n} variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-foreground hover:bg-theme-base/5 active:scale-95 transition-all bg-background/50" onClick={() => handleNumber(String(n))}>{n}</Button>
         ))}
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-theme-base hover:bg-theme-base/10 active:scale-95 transition-all bg-slate-50 dark:bg-theme-base/5" onClick={() => handleOperator('+')}>+</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-theme-base hover:bg-theme-base/10 active:scale-95 transition-all bg-secondary/50" onClick={() => handleOperator('+')}>+</Button>
 
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-slate-700 dark:text-slate-300 hover:bg-theme-base/5 active:scale-95 transition-all bg-white dark:bg-black/20 col-span-2" onClick={() => handleNumber('0')}>0</Button>
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-slate-700 dark:text-slate-300 hover:bg-theme-base/5 active:scale-95 transition-all bg-white dark:bg-black/20" onClick={() => handleNumber('.')}>.</Button>
-        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-black bg-theme-base hover:bg-theme-base/90 text-slate-950 transition-all active:scale-95" onClick={calculate}>=</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-foreground hover:bg-theme-base/5 active:scale-95 transition-all bg-background/50 col-span-2" onClick={() => handleNumber('0')}>0</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-bold text-foreground hover:bg-theme-base/5 active:scale-95 transition-all bg-background/50" onClick={() => handleNumber('.')}>.</Button>
+        <Button variant="ghost" className="h-full py-1.5 rounded-none text-base font-black bg-theme-base hover:bg-theme-base/90 text-primary-foreground transition-all active:scale-95" onClick={calculate}>=</Button>
       </div>
 
       <style>{`

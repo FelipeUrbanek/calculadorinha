@@ -96,6 +96,7 @@ All colors MUST be HSL.
   :root, .theme-ruby {
     /* Ruby (Red-Pink) */
     --theme-base: 0 84.2% 60.2%;
+    --theme-base-rgb: 244, 63, 94;
     --theme-gradient-start: 0 84.2% 60.2%;
     --theme-gradient-end: 330 81.3% 60.4%;
   }
@@ -103,6 +104,7 @@ All colors MUST be HSL.
   .theme-ocean {
     /* Ocean (Blue-Teal) */
     --theme-base: 221.2 83.2% 53.3%;
+    --theme-base-rgb: 59, 130, 246;
     --theme-gradient-start: 221.2 83.2% 53.3%;
     --theme-gradient-end: 171.3 76.6% 41.2%;
   }
@@ -110,6 +112,7 @@ All colors MUST be HSL.
   .theme-nature {
     /* Nature (Green-Emerald) */
     --theme-base: 142.1 70.6% 45.3%;
+    --theme-base-rgb: 34, 197, 94;
     --theme-gradient-start: 142.1 70.6% 45.3%;
     --theme-gradient-end: 158.1 64.4% 52.2%;
   }
@@ -117,6 +120,7 @@ All colors MUST be HSL.
   .theme-royal {
     /* Royal (Purple-Indigo) */
     --theme-base: 270.7 91% 65.1%;
+    --theme-base-rgb: 168, 85, 247;
     --theme-gradient-start: 270.7 91% 65.1%;
     --theme-gradient-end: 239.3 83.5% 66.5%;
   }
@@ -124,6 +128,7 @@ All colors MUST be HSL.
   .theme-sunset {
     /* Sunset (Orange-Yellow) */
     --theme-base: 24.6 95% 53.1%;
+    --theme-base-rgb: 249, 115, 22;
     --theme-gradient-start: 24.6 95% 53.1%;
     --theme-gradient-end: 45.4 93.4% 47.5%;
   }

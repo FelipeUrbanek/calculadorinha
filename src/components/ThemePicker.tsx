@@ -20,7 +20,7 @@ export function ThemePicker() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="h-16 w-16 rounded-full bg-white dark:bg-slate-900 border-2 border-theme-base hover:bg-slate-50 dark:hover:bg-black text-slate-900 dark:text-white shadow-[0_0_30px_rgba(var(--theme-base-rgb),0.3)] flex items-center justify-center transition-all hover:scale-110 active:scale-95 group relative cursor-pointer outline-none">
+        <button className="h-16 w-16 rounded-full bg-background border-2 border-theme-base hover:bg-accent text-foreground shadow-[0_0_30px_rgba(var(--theme-base-rgb),0.3)] flex items-center justify-center transition-all hover:scale-110 active:scale-95 group relative cursor-pointer outline-none">
           <div className="absolute -inset-1 bg-gradient-to-r from-theme-gradient-start/20 to-theme-gradient-end/20 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
           <Palette className="h-7 w-7 text-theme-base relative z-10 drop-shadow-[0_0_8px_rgba(var(--theme-base-rgb),0.4)]" />
         </button>
@@ -28,10 +28,10 @@ export function ThemePicker() {
         <PopoverContent
           side="top"
           align="start"
-          className="w-auto p-3 mb-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl"
+          className="w-auto p-3 mb-2 rounded-2xl bg-background border border-border shadow-xl"
         >
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 px-1 mb-1">
+            <p className="text-xs font-medium text-muted-foreground px-1 mb-1">
               Esquema de Cores
             </p>
             <div className="flex gap-2">
@@ -44,7 +44,7 @@ export function ThemePicker() {
                     t.classes
                   } ${
                     colorTheme === t.id
-                      ? "ring-2 ring-offset-2 ring-offset-white dark:ring-offset-slate-900 ring-slate-400 dark:ring-slate-500 scale-110"
+                      ? "ring-2 ring-offset-2 ring-offset-background ring-muted-foreground scale-110"
                       : ""
                   }`}
                 >
@@ -55,7 +55,7 @@ export function ThemePicker() {
               ))}
             </div>
             
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 px-1 mb-1 mt-2">
+            <p className="text-xs font-medium text-muted-foreground px-1 mb-1 mt-2">
               Modo de Exibição
             </p>
             <div className="flex gap-2">
@@ -63,8 +63,8 @@ export function ThemePicker() {
                 onClick={() => setTheme("light")}
                 className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all shadow-sm ${
                   theme === "light"
-                    ? "bg-slate-200 text-slate-900 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-slate-900 ring-slate-400 dark:ring-slate-500"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                    ? "bg-secondary text-secondary-foreground ring-2 ring-offset-2 ring-offset-background ring-muted-foreground"
+                    : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
                 }`}
               >
                 <Sun className="h-4 w-4" /> Claro
@@ -73,8 +73,8 @@ export function ThemePicker() {
                 onClick={() => setTheme("dark")}
                 className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all shadow-sm ${
                   theme === "dark"
-                    ? "bg-slate-800 text-white ring-2 ring-offset-2 ring-offset-white dark:ring-offset-slate-900 ring-slate-400 dark:ring-slate-500"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                    ? "bg-primary text-primary-foreground ring-2 ring-offset-2 ring-offset-background ring-muted-foreground"
+                    : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
                 }`}
               >
                 <Moon className="h-4 w-4" /> Escuro
