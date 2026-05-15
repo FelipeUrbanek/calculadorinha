@@ -154,7 +154,7 @@ const PiPWorkspace: React.FC = () => {
             gridTemplateColumns:
               calculators.length === 1
                 ? "1fr"
-                : `repeat(auto-fill, minmax(max(240px, calc(100% / 5 - 16px)), 1fr))`,
+                : `repeat(auto-fill, minmax(min(180px, 100%), 1fr))`,
           }}
         >
           {calculators.map((calc) => (
@@ -225,11 +225,11 @@ const PiPCalculator: React.FC = () => {
     }
 
     try {
-      // Calculate dynamic size based on screen resolution
-      const screenWidth = window.screen.availWidth;
-      const screenHeight = window.screen.availHeight;
+      // Use the full screen dimensions for maximum compatibility across all resolutions
+      const screenWidth = window.screen.width;
+      const screenHeight = window.screen.height;
 
-      // Use 100% of available screen space without any caps
+      // We request the full size, but browsers usually cap PiP to a safe maximum (e.g., 80% of screen)
       const pipWidth = screenWidth;
       const pipHeight = screenHeight;
 
