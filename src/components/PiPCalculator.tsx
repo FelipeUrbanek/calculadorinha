@@ -147,14 +147,14 @@ const PiPWorkspace: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex-1 px-6 pb-20 overflow-y-auto scroll-smooth custom-pip-scrollbar">
+      <div className="flex-1 px-4 pb-10 overflow-y-auto scroll-smooth custom-pip-scrollbar">
         <div
-          className="grid gap-6 items-start justify-start w-full"
+          className="grid gap-4 items-start justify-start w-full"
           style={{
             gridTemplateColumns:
               calculators.length === 1
                 ? "1fr"
-                : `repeat(auto-fill, minmax(320px, 1fr))`,
+                : `repeat(auto-fill, minmax(max(240px, calc(100% / 5 - 16px)), 1fr))`,
           }}
         >
           {calculators.map((calc) => (
@@ -225,11 +225,19 @@ const PiPCalculator: React.FC = () => {
     }
 
     try {
+      // Calculate dynamic size based on screen resolution
+      const screenWidth = window.screen.availWidth;
+      const screenHeight = window.screen.availHeight;
+
+      // Use 100% of available screen space without any caps
+      const pipWidth = screenWidth;
+      const pipHeight = screenHeight;
+
       const pipWindow = await (
         window as any
       ).documentPictureInPicture.requestWindow({
-        width: 700,
-        height: 600,
+        width: Math.floor(pipWidth),
+        height: Math.floor(pipHeight),
       });
 
       [...document.styleSheets].forEach((styleSheet) => {
