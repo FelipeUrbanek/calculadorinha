@@ -156,55 +156,54 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
   };
 
   return (
-    <Card className="relative w-full h-[310px] flex flex-col bg-background text-foreground border-none overflow-hidden shadow-none rounded-[2rem] ring-1 ring-border/50 transition-colors duration-300 group/calc">
+    <Card className="relative w-full h-[220px] flex flex-col bg-background text-foreground border-none overflow-hidden shadow-none rounded-[1.5rem] ring-1 ring-border/50 transition-colors duration-300 group/calc">
       {/* Memorial Overlay - Professional Style */}
       {showMemorial && (
         <div className="absolute inset-0 z-[100] bg-background/95 backdrop-blur-md flex flex-col animate-in slide-in-from-bottom duration-300">
-          <div className="px-4 py-3 border-b border-border flex items-center justify-between bg-secondary/30">
-            <div className="flex items-center gap-2">
-              <History className="w-3.5 h-3.5 text-theme-base" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
-                Fita de Cálculo
+          <div className="px-3 py-2 border-b border-border flex items-center justify-between bg-secondary/30">
+            <div className="flex items-center gap-1.5">
+              <History className="w-3 h-3 text-theme-base" />
+              <span className="text-[8px] font-black uppercase tracking-widest text-foreground">
+                Fita
               </span>
             </div>
             <button
               onClick={() => setShowMemorial(false)}
-              className="p-1.5 hover:bg-destructive/10 hover:text-destructive rounded-full transition-all text-muted-foreground"
+              className="p-1 hover:bg-destructive/10 hover:text-destructive rounded-full transition-all text-muted-foreground"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3 h-3" />
             </button>
           </div>
 
           <div
             ref={scrollRef}
-            className="flex-1 overflow-y-auto p-4 flex flex-col gap-1 custom-pip-scrollbar"
+            className="flex-1 overflow-y-auto p-2 flex flex-col gap-1 custom-pip-scrollbar"
           >
             {memorial.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full opacity-20 gap-2">
-                <Calculator className="w-10 h-10" />
-                <div className="text-[10px] font-black tracking-widest uppercase">
-                  Memória Vazia
+              <div className="flex flex-col items-center justify-center h-full opacity-20 gap-1">
+                <Calculator className="w-6 h-6" />
+                <div className="text-[8px] font-black tracking-widest uppercase">
+                  Vazia
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
                 {memorial.map((item, i) => {
                   const [expr, res] = item.split(" = ");
                   return (
                     <div
                       key={i}
-                      className="group/item relative flex flex-col items-end py-2 px-3 rounded-xl hover:bg-secondary/30 transition-all border border-transparent hover:border-border/50"
+                      className="group/item relative flex flex-col items-end py-1 px-2 rounded-lg hover:bg-secondary/30 transition-all border border-transparent hover:border-border/50"
                     >
-                      <div className="text-[9px] font-bold font-mono text-muted-foreground/70 mb-0.5 break-all text-right tracking-tighter">
+                      <div className="text-[7px] font-bold font-mono text-muted-foreground/70 break-all text-right tracking-tighter">
                         {expr} =
                       </div>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
                         <button
                           onClick={() => copyToClipboard(res)}
-                          className="opacity-0 group-hover/item:opacity-100 p-1.5 hover:bg-theme-base/10 rounded-md transition-all text-theme-base"
-                          title="Copiar resultado"
+                          className="opacity-0 group-hover/item:opacity-100 p-1 hover:bg-theme-base/10 rounded-md transition-all text-theme-base"
                         >
-                          <Copy className="w-3.5 h-3.5" />
+                          <Copy className="w-3 h-3" />
                         </button>
                         <button
                           onClick={() => {
@@ -213,7 +212,7 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
                             setShouldReset(true);
                             setShowMemorial(false);
                           }}
-                          className="text-2xl font-black font-mono text-foreground hover:text-theme-base transition-all tracking-tighter"
+                          className="text-lg font-black font-mono text-foreground hover:text-theme-base transition-all tracking-tighter"
                         >
                           {res}
                         </button>
@@ -225,36 +224,32 @@ const StandardCalculator: React.FC<StandardCalculatorProps> = (props) => {
             )}
           </div>
 
-          <div className="p-4 border-t border-border flex justify-between items-center bg-secondary/20">
-            <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-tight">
-              {memorial.length}{" "}
-              {memorial.length === 1 ? "operação" : "operações"}
+          <div className="p-2 border-t border-border flex justify-between items-center bg-secondary/20">
+            <div className="text-[7px] font-bold text-muted-foreground uppercase tracking-tight">
+              {memorial.length} ops
             </div>
             {showConfirmClear ? (
-              <div className="flex items-center gap-2 animate-in zoom-in-95">
+              <div className="flex items-center gap-1 animate-in zoom-in-95">
                 <button
                   onClick={() => setShowConfirmClear(false)}
-                  className="px-4 py-2 bg-secondary text-secondary-foreground rounded-xl text-[10px] font-black uppercase tracking-tight hover:bg-secondary/80 transition-all"
+                  className="px-2 py-1 bg-secondary text-secondary-foreground rounded-lg text-[8px] font-black uppercase tracking-tight"
                 >
                   Não
                 </button>
                 <button
                   onClick={handleClearHistory}
-                  className="px-4 py-2 bg-destructive text-destructive-foreground rounded-xl text-[10px] font-black uppercase tracking-tight hover:opacity-90 transition-all shadow-lg shadow-destructive/20"
+                  className="px-2 py-1 bg-destructive text-destructive-foreground rounded-lg text-[8px] font-black uppercase tracking-tight"
                 >
-                  Limpar Fita
+                  Zerar
                 </button>
               </div>
             ) : (
               memorial.length > 0 && (
                 <button
                   onClick={() => setShowConfirmClear(true)}
-                  className="flex items-center gap-2 px-3 py-2 hover:bg-destructive/10 rounded-xl transition-all text-destructive group/clear"
+                  className="p-1.5 hover:bg-destructive/10 rounded-lg transition-all text-destructive"
                 >
-                  <Trash2 className="w-4 h-4" />
-                  <span className="text-[9px] font-black uppercase tracking-widest opacity-0 group-hover/clear:opacity-100 transition-all">
-                    Zerar
-                  </span>
+                  <Trash2 className="w-3 h-3" />
                 </button>
               )
             )}

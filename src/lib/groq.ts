@@ -15,7 +15,7 @@ export async function chatWithGroq(messages: GroqMessage[]) {
     const response = await fetch(GROQ_API_URL, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${API_KEY}`,
+        "Authorization": `Bearer ${API_KEY.trim()}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

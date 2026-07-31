@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
@@ -58,6 +59,7 @@ export default function AILawAssistant() {
               </div>
               <div>
                 <DialogTitle className="text-white font-bold text-lg leading-none mb-1">Base Legal IA</DialogTitle>
+                <DialogDescription className="sr-only">Assistente jurídico online para dúvidas da CLT.</DialogDescription>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Especialista CLT Online</span>
