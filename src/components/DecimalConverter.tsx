@@ -70,27 +70,31 @@ const DecimalConverter = () => {
     );
   };
 
+  const fieldClass =
+    "h-14 rounded-2xl border-0 bg-background text-2xl font-bold tabular-nums text-foreground text-center shadow-none focus-visible:ring-2 focus-visible:ring-theme-base focus-visible:ring-offset-0 md:text-2xl";
+
   return (
-    <Card className="shadow-xl shadow-theme-base/5 border-white/40 dark:border-slate-800/50 overflow-hidden bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl transition-all duration-500 hover:shadow-2xl hover:shadow-theme-base/10 group">
-      <CardHeader className="pb-3 bg-theme-base transition-colors duration-500">
-        <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-          <ArrowRightLeft className="h-5 w-5 stroke-[2.5]" />
-          Conversor Rápido
+    <Card className="rounded-[26px] border-0 bg-card shadow-none">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-bold tracking-tight text-foreground flex items-center gap-2">
+          <ArrowRightLeft className="h-5 w-5 stroke-[2.5] text-theme-base" />
+          Conversor rápido
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-6 space-y-4 bg-transparent transition-colors">
-        <div className="space-y-6">
+      <CardContent className="space-y-4">
+        <div className="space-y-5">
           {converters.map((row) => (
-            <div key={row.id} className="space-y-4">
+            <div key={row.id} className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  Horas Decimais
+                <Label className="text-sm text-muted-foreground font-semibold">
+                  Horas decimais
                 </Label>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => removeConverter(row.id)}
-                  className="text-slate-400 hover:text-theme-base hover:bg-theme-base/10 dark:hover:bg-theme-base/10 rounded-full transition-all"
+                  aria-label="Remover conversão"
+                  className="h-8 w-8 text-muted-foreground hover:text-bad hover:bg-bad-soft rounded-full transition-colors"
                 >
                   <X className="h-4 w-4 stroke-[2.5]" />
                 </Button>
@@ -100,19 +104,13 @@ const DecimalConverter = () => {
                 value={row.decimal}
                 onChange={(e) => updateFromDecimal(row.id, e.target.value)}
                 onFocus={(e) => e.target.select()}
-                className="h-14 text-xl font-semibold rounded-xl border-2 border-theme-base/20 dark:border-theme-base/30 bg-theme-base/5 dark:bg-theme-base/10 focus:bg-white dark:focus:bg-slate-900 focus:border-theme-base/60 dark:focus:border-theme-base/50 transition-all text-center hover:border-theme-base/40 dark:hover:border-theme-base/40 hover:shadow-sm text-slate-800 dark:text-white"
+                className={fieldClass}
                 placeholder="0.0"
               />
 
-              <div className="flex items-center justify-center py-2">
-                <div className="bg-theme-base p-2 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-180">
-                  <ArrowRightLeft className="h-4 w-4 text-white stroke-[2.5]" />
-                </div>
-              </div>
-
               <div className="flex items-center gap-2">
                 <div className="flex-1">
-                  <Label className="text-xs text-slate-500 dark:text-slate-400 mb-2 block font-medium">
+                  <Label className="text-sm text-muted-foreground mb-1.5 block font-semibold">
                     Horas
                   </Label>
                   <Input
@@ -122,13 +120,13 @@ const DecimalConverter = () => {
                       updateFromTime(row.id, e.target.value, row.minutes)
                     }
                     onFocus={(e) => e.target.select()}
-                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm focus:bg-white dark:focus:bg-slate-900 focus:border-slate-300 dark:focus:border-slate-600 transition-all text-center text-slate-800 dark:text-white"
+                    className={fieldClass}
                     placeholder="0"
                   />
                 </div>
-                <div className="pt-6 text-2xl text-slate-300 dark:text-slate-700 font-bold">:</div>
+                <div className="pt-7 text-2xl text-muted-foreground/60 font-bold">:</div>
                 <div className="flex-1">
-                  <Label className="text-xs text-slate-500 dark:text-slate-400 mb-2 block font-medium">
+                  <Label className="text-sm text-muted-foreground mb-1.5 block font-semibold">
                     Minutos
                   </Label>
                   <Input
@@ -138,7 +136,7 @@ const DecimalConverter = () => {
                       updateFromTime(row.id, row.hours, e.target.value)
                     }
                     onFocus={(e) => e.target.select()}
-                    className="h-14 text-xl font-semibold rounded-xl border-2 border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm focus:bg-white dark:focus:bg-slate-900 focus:border-slate-300 dark:focus:border-slate-600 transition-all text-center text-slate-800 dark:text-white"
+                    className={fieldClass}
                     placeholder="00"
                   />
                 </div>
@@ -146,15 +144,14 @@ const DecimalConverter = () => {
             </div>
           ))}
         </div>
-        <div className="pt-2">
-          <Button
-            onClick={addConverter}
-            className="w-full bg-slate-600 hover:bg-slate-700 text-white h-11 font-medium transition-all hover:scale-105 active:scale-95"
-          >
-            <Plus className="w-5 h-5 mr-1 stroke-[2.5]" />
-            Adicionar conversão
-          </Button>
-        </div>
+        <Button
+          onClick={addConverter}
+          variant="ghost"
+          className="w-full h-12 rounded-full font-bold bg-theme-base/10 text-theme-base hover:bg-theme-base hover:text-white dark:bg-theme-base/20 dark:text-foreground dark:hover:bg-theme-base active:scale-95 transition-all"
+        >
+          <Plus className="w-5 h-5 mr-1 stroke-[2.5]" />
+          Adicionar conversão
+        </Button>
       </CardContent>
     </Card>
   );

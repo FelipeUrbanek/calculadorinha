@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { X, Plus, Minus } from "lucide-react";
-import { Label } from "@/components/ui/label";
 import { TimeEntry } from "./TimeCalculator";
 
 interface TimeRowProps {
@@ -102,8 +101,15 @@ const TimeRow = ({
   };
 
   const isAddition = entry.operation === "add";
-  const bgColor = isAddition ? "bg-green-50/50" : "bg-red-50/50";
-  const borderColor = isAddition ? "border-green-100" : "border-red-100";
+  const decimalValue = (
+    entry.hours +
+    Math.ceil((entry.minutes / 60) * 100) / 100
+  ).toFixed(2);
+
+  const fieldClass =
+    "flex items-center gap-1.5 h-[54px] px-3.5 rounded-2xl bg-card focus-within:ring-2 focus-within:ring-theme-base transition-shadow";
+  const inputClass =
+    "h-full w-full min-w-0 border-0 bg-transparent p-0 text-right text-2xl sm:text-[27px] md:text-[27px] font-semibold tabular-nums shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-foreground";
 
   return (
     <motion.div
@@ -111,93 +117,95 @@ const TimeRow = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2 }}
-      className={`grid grid-cols-[1fr_1fr_auto] sm:flex sm:flex-nowrap items-start sm:items-center gap-3 sm:gap-4 py-3 px-3 sm:px-4 rounded-xl border ${bgColor} dark:bg-slate-800/50 ${borderColor} dark:border-slate-700/50 transition-colors`}
+      className="relative grid grid-cols-[54px_1fr_1fr] sm:flex sm:flex-nowrap items-center gap-2.5 sm:gap-3 p-2.5 rounded-[20px] bg-background"
       data-row-index={index}
     >
-      {/* Operation Toggle */}
-      <div className="col-span-3 sm:col-auto flex flex-col min-w-[140px]">
-        <Label className="text-xs text-transparent mb-1 hidden sm:block select-none pointer-events-none" aria-hidden="true">&nbsp;</Label>
-        <button
-          onClick={() => toggleOperation(!isAddition)}
-          className={`flex items-center justify-center gap-2 px-4 py-2 sm:py-0 w-full sm:w-auto h-auto sm:h-12 rounded-lg font-medium text-sm transition-all shadow-sm hover:scale-105 active:scale-95 ${
-            isAddition
-              ? "bg-green-500 text-white hover:bg-green-600"
-              : "bg-theme-base text-white hover:bg-theme-base/90"
-          }`}
-        >
-          {isAddition ? (
-            <Plus className="h-4 w-4 stroke-[2.5] transition-transform group-hover:rotate-90" />
-          ) : (
-            <Minus className="h-4 w-4 stroke-[2.5]" />
-          )}
-          {isAddition ? "Somar" : "Subtrair"}
-        </button>
-      </div>
+      {/* Operation Toggle: a "marcação" redonda. Verde soma, vermelho subtrai. */}
+      <button
+        onClick={() => toggleOperation(!isAddition)}
+        aria-label={
+          isAddition
+            ? "Somando. Clique para subtrair"
+            : "Subtraindo. Clique para somar"
+        }
+        title={isAddition ? "Somar (clique para subtrair)" : "Subtrair (clique para somar)"}
+        className={`h-[54px] w-[54px] shrink-0 rounded-full flex items-center justify-center text-white dark:text-background transition-transform active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-base focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+          isAddition ? "bg-ok" : "bg-bad"
+        }`}
+      >
+        {isAddition ? (
+          <Plus className="h-7 w-7 stroke-[2.75]" />
+        ) : (
+          <Minus className="h-7 w-7 stroke-[2.75]" />
+        )}
+      </button>
 
       {/* Hours Input */}
-      <div className="col-span-1 sm:col-auto flex-1 min-w-0 sm:min-w-[100px]">
-        <Label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Horas</Label>
-        <Input
-          ref={hoursInputRef}
-          type="number"
-          min="0"
-          value={entry.hours.toString()}
-          onChange={(e) => handleHoursChange(e.target.value)}
-          onKeyDown={(e) => handleKeyDown(e, index, "hours")}
-          onFocus={(e) => e.target.select()}
-          className="h-12 text-lg rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-slate-200 dark:focus:ring-slate-700 transition-all text-center text-slate-800 dark:text-white hover:border-slate-300 dark:hover:border-slate-600"
-          placeholder="0"
-          data-input-type="hours"
-          data-row-index={index}
-        />
+      <div className="flex-1 min-w-0 sm:min-w-[100px]">
+        <label className={fieldClass}>
+          <Input
+            ref={hoursInputRef}
+            type="number"
+            min="0"
+            value={entry.hours.toString()}
+            onChange={(e) => handleHoursChange(e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, index, "hours")}
+            onFocus={(e) => e.target.select()}
+            className={inputClass}
+            placeholder="0"
+            aria-label="Horas"
+            data-input-type="hours"
+            data-row-index={index}
+          />
+          <span className="text-xs sm:text-sm text-muted-foreground shrink-0">h</span>
+        </label>
       </div>
 
       {/* Minutes Input */}
-      <div className="col-span-1 sm:col-auto flex-1 min-w-0 sm:min-w-[100px]">
-        <Label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Minutos</Label>
-        <Input
-          ref={minutesInputRef}
-          type="number"
-          min="0"
-          max="59"
-          value={entry.minutes.toString().padStart(2, "0")}
-          onChange={(e) => handleMinutesChange(e.target.value)}
-          onKeyDown={(e) => handleKeyDown(e, index, "minutes")}
-          onFocus={(e) => e.target.select()}
-          className="h-12 text-lg rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-slate-200 dark:focus:ring-slate-700 transition-all text-center text-slate-800 dark:text-white hover:border-slate-300 dark:hover:border-slate-600"
-          placeholder="00"
-          data-input-type="minutes"
-          data-row-index={index}
-        />
+      <div className="flex-1 min-w-0 sm:min-w-[100px]">
+        <label className={fieldClass}>
+          <Input
+            ref={minutesInputRef}
+            type="number"
+            min="0"
+            max="59"
+            value={entry.minutes.toString().padStart(2, "0")}
+            onChange={(e) => handleMinutesChange(e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, index, "minutes")}
+            onFocus={(e) => e.target.select()}
+            className={inputClass}
+            placeholder="00"
+            aria-label="Minutos"
+            data-input-type="minutes"
+            data-row-index={index}
+          />
+          <span className="text-xs sm:text-sm text-muted-foreground shrink-0">min</span>
+        </label>
       </div>
 
       {/* Decimal Display */}
       {showDecimal && (
-        <div className="col-span-2 sm:col-auto flex-1 min-w-0 sm:min-w-[100px] mt-1 sm:mt-0">
-          <Label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Decimal</Label>
-          <div className="h-12 flex items-center justify-center px-3 text-lg font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-transparent transition-all hover:bg-slate-100 dark:hover:bg-slate-800">
-            {(
-              entry.hours +
-              Math.ceil((entry.minutes / 60) * 100) / 100
-            ).toFixed(2)}
-          </div>
+        <div
+          className="col-span-2 col-start-2 sm:col-auto sm:w-[84px] shrink-0 h-10 flex items-center justify-center rounded-xl bg-warn-soft text-warn-ink text-[15px] font-bold tabular-nums"
+          title="Valor em horas decimais"
+        >
+          {decimalValue}
         </div>
       )}
 
       {/* Delete Button */}
-      <div className="col-span-1 sm:col-auto pt-5 sm:pt-5 pb-1 sm:pb-0 flex justify-center items-end sm:items-start self-stretch sm:self-auto">
-        <Button
-          onClick={() => onRemove(entry.id)}
-          disabled={!canRemove}
-          variant="ghost"
-          size="icon"
-          className="text-slate-400 hover:text-theme-base hover:bg-theme-base/10 rounded-full transition-all hover:scale-110 active:scale-90"
-          data-action="remove-row"
-          data-row-index={index}
-        >
-          <X className="h-5 w-5 stroke-[2.5]" />
-        </Button>
-      </div>
+      <Button
+        onClick={() => onRemove(entry.id)}
+        disabled={!canRemove}
+        variant="ghost"
+        size="icon"
+        aria-label="Remover linha"
+        className="absolute -top-2 -right-1 h-7 w-7 sm:static sm:h-9 sm:w-9 shrink-0 rounded-full bg-card sm:bg-transparent shadow-[0_0_0_1px_hsl(var(--border))] sm:shadow-none text-muted-foreground hover:text-bad hover:bg-bad-soft"
+        data-action="remove-row"
+        data-row-index={index}
+      >
+        <X className="h-4 w-4 stroke-[2.5]" />
+      </Button>
     </motion.div>
   );
 };

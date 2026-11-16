@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['"Bricolage Grotesque"', "ui-sans-serif", "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -51,6 +54,19 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        ok: {
+          DEFAULT: "hsl(var(--ok))",
+          soft: "hsl(var(--ok-soft))",
+        },
+        bad: {
+          DEFAULT: "hsl(var(--bad))",
+          soft: "hsl(var(--bad-soft))",
+        },
+        warn: {
+          DEFAULT: "hsl(var(--warn))",
+          soft: "hsl(var(--warn-soft))",
+          ink: "hsl(var(--warn-ink))",
         },
         "theme-base": "hsl(var(--theme-base))",
         "theme-gradient-start": "hsl(var(--theme-gradient-start))",

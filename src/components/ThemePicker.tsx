@@ -6,12 +6,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-const THEMES: { id: ColorTheme; name: string; classes: string }[] = [
-  { id: "ruby", name: "Padrão", classes: "bg-gradient-to-br from-red-500 to-pink-500" },
-  { id: "ocean", name: "Ocean", classes: "bg-gradient-to-br from-blue-500 to-teal-500" },
-  { id: "nature", name: "Nature", classes: "bg-gradient-to-br from-green-500 to-emerald-500" },
-  { id: "royal", name: "Royal", classes: "bg-gradient-to-br from-purple-500 to-indigo-500" },
-  { id: "sunset", name: "Sunset", classes: "bg-gradient-to-br from-orange-500 to-yellow-500" },
+const THEMES: { id: ColorTheme; name: string; color: string }[] = [
+  { id: "indigo", name: "Índigo", color: "#3B33E8" },
+  { id: "ruby", name: "Ruby", color: "#D61F4C" },
+  { id: "ocean", name: "Ocean", color: "#1D5FD6" },
+  { id: "nature", name: "Nature", color: "#047857" },
+  { id: "royal", name: "Royal", color: "#7C3AED" },
+  { id: "sunset", name: "Sunset", color: "#D9480F" },
 ];
 
 export function ThemePicker() {
@@ -20,68 +21,70 @@ export function ThemePicker() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="h-16 w-16 rounded-full bg-background border-2 border-theme-base hover:bg-accent text-foreground shadow-[0_0_30px_rgba(var(--theme-base-rgb),0.3)] flex items-center justify-center transition-all hover:scale-110 active:scale-95 group relative cursor-pointer outline-none">
-          <div className="absolute -inset-1 bg-gradient-to-r from-theme-gradient-start/20 to-theme-gradient-end/20 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
-          <Palette className="h-7 w-7 text-theme-base relative z-10 drop-shadow-[0_0_8px_rgba(var(--theme-base-rgb),0.4)]" />
+        <button
+          aria-label="Tema e cores"
+          title="Tema e cores"
+          className="h-11 w-11 shrink-0 rounded-full bg-card text-foreground hover:bg-theme-base hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+        >
+          <Palette className="h-5 w-5" />
         </button>
       </PopoverTrigger>
-        <PopoverContent
-          side="top"
-          align="start"
-          className="w-auto p-3 mb-2 rounded-2xl bg-background border border-border shadow-xl"
-        >
-          <div className="flex flex-col gap-2">
-            <p className="text-xs font-medium text-muted-foreground px-1 mb-1">
-              Esquema de Cores
-            </p>
-            <div className="flex gap-2">
-              {THEMES.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setColorTheme(t.id)}
-                  title={t.name}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-90 shadow-sm ${
-                    t.classes
-                  } ${
-                    colorTheme === t.id
-                      ? "ring-2 ring-offset-2 ring-offset-background ring-muted-foreground scale-110"
-                      : ""
-                  }`}
-                >
-                  {colorTheme === t.id && (
-                    <Check className="h-5 w-5 text-white drop-shadow-md" />
-                  )}
-                </button>
-              ))}
-            </div>
-            
-            <p className="text-xs font-medium text-muted-foreground px-1 mb-1 mt-2">
-              Modo de Exibição
-            </p>
-            <div className="flex gap-2">
+      <PopoverContent
+        side="bottom"
+        align="end"
+        className="w-auto p-4 rounded-3xl bg-popover border border-border shadow-xl"
+      >
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-semibold text-muted-foreground px-1">
+            Cor da marca
+          </p>
+          <div className="flex gap-2">
+            {THEMES.map((t) => (
               <button
-                onClick={() => setTheme("light")}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all shadow-sm ${
-                  theme === "light"
-                    ? "bg-secondary text-secondary-foreground ring-2 ring-offset-2 ring-offset-background ring-muted-foreground"
-                    : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
+                key={t.id}
+                onClick={() => setColorTheme(t.id)}
+                title={t.name}
+                aria-label={`Cor ${t.name}`}
+                aria-pressed={colorTheme === t.id}
+                style={{ backgroundColor: t.color }}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-transform hover:scale-110 active:scale-90 ${
+                  colorTheme === t.id
+                    ? "ring-2 ring-offset-2 ring-offset-popover ring-foreground"
+                    : ""
                 }`}
               >
-                <Sun className="h-4 w-4" /> Claro
+                {colorTheme === t.id && <Check className="h-5 w-5 text-white" />}
               </button>
-              <button
-                onClick={() => setTheme("dark")}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all shadow-sm ${
-                  theme === "dark"
-                    ? "bg-primary text-primary-foreground ring-2 ring-offset-2 ring-offset-background ring-muted-foreground"
-                    : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
-                }`}
-              >
-                <Moon className="h-4 w-4" /> Escuro
-              </button>
-            </div>
+            ))}
           </div>
-        </PopoverContent>
+
+          <p className="text-sm font-semibold text-muted-foreground px-1 mt-2">
+            Modo de exibição
+          </p>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setTheme("light")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold transition-colors ${
+                theme === "light"
+                  ? "bg-foreground text-background"
+                  : "bg-secondary text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Sun className="h-4 w-4" /> Claro
+            </button>
+            <button
+              onClick={() => setTheme("dark")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold transition-colors ${
+                theme === "dark"
+                  ? "bg-foreground text-background"
+                  : "bg-secondary text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Moon className="h-4 w-4" /> Escuro
+            </button>
+          </div>
+        </div>
+      </PopoverContent>
     </Popover>
   );
 }

@@ -1,5 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { AnimatedTime } from "./AnimatedTime";
 import { useToast } from "@/hooks/use-toast";
 import { Copy } from "lucide-react";
@@ -44,80 +42,91 @@ const TimeResults = ({
     });
   };
 
+  const copyOnKey = (e: React.KeyboardEvent, value: string) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCopy(value);
+    }
+  };
+
+  const finalText = formatTime(finalResult);
+  const additionText = formatTime(additionResult);
+  const subtractionText = formatTime(subtractionResult);
+
   return (
-    <Card className="shadow-xl shadow-theme-base/5 bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl border-white/40 dark:border-slate-800/50 overflow-hidden relative transition-all duration-500 hover:shadow-2xl hover:shadow-theme-base/20 group">
-      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-theme-gradient-start via-purple-500 to-theme-gradient-end"></div>
-      <CardHeader className="pb-4 border-b border-slate-100 dark:border-slate-800/50">
-        <CardTitle className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
-          Resultado Final
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Main Result */}
-        <div 
-          onClick={() => handleCopy(formatTime(finalResult))}
-          className="text-center py-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/50 relative overflow-hidden group transition-all hover:border-theme-base/30 dark:hover:border-theme-base/30 cursor-pointer active:scale-[0.98]"
+    <div className="space-y-3">
+      {/* Total: o único bloco grande e colorido da tela */}
+      <div
+        onClick={() => handleCopy(finalText)}
+        onKeyDown={(e) => copyOnKey(e, finalText)}
+        role="button"
+        tabIndex={0}
+        aria-label={`Saldo do dia ${finalText}. Clique para copiar`}
+        className="relative cursor-pointer select-none rounded-[38px] bg-theme-base px-6 pb-6 pt-5 text-white transition-transform active:scale-[0.99] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-theme-base/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        title="Clique para copiar"
+      >
+        <div className="flex items-center justify-between gap-3 text-sm font-semibold">
+          <span className="opacity-85">Saldo do dia</span>
+          <span className="flex items-center gap-1.5 opacity-75">
+            <Copy className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Toque para copiar</span>
+          </span>
+        </div>
+        <div
+          aria-live="polite"
+          className="mt-1 text-[64px] sm:text-[76px] xl:text-[104px] 2xl:text-[116px] font-extrabold leading-[0.95] tracking-[-0.05em]"
+        >
+          <AnimatedTime value={finalText} className="justify-start" />
+        </div>
+        {showDecimal && (
+          <div className="mt-3 inline-block rounded-full bg-warn px-3.5 py-1.5 text-sm font-bold text-[#3A2500]">
+            {finalDecimal.toFixed(2).replace(".", ",")} horas decimais
+          </div>
+        )}
+      </div>
+
+      {/* Somado e subtraído */}
+      <div className="grid grid-cols-2 gap-3 max-lg:hidden">
+        <div
+          onClick={() => handleCopy(additionText)}
+          onKeyDown={(e) => copyOnKey(e, additionText)}
+          role="button"
+          tabIndex={0}
+          aria-label={`Total somado ${additionText}. Clique para copiar`}
+          className="cursor-pointer rounded-3xl bg-ok-soft px-[18px] py-3.5 text-ok transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ok"
           title="Clique para copiar"
         >
-          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <Copy className="h-5 w-5 text-slate-400 dark:text-slate-500 stroke-[2.5]" />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-theme-gradient-start/5 to-purple-500/5 dark:from-indigo-500/10 dark:to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="relative text-7xl font-black text-slate-800 dark:text-white tracking-tighter drop-shadow-sm transition-colors">
-            <AnimatedTime value={formatTime(finalResult)} />
+          <span className="block text-sm font-semibold">Somado</span>
+          <div className="text-[28px] font-bold tracking-tight">
+            <AnimatedTime value={additionText} className="justify-start" />
           </div>
           {showDecimal && (
-            <div className="relative mt-4 inline-block bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-700 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
-              {finalDecimal.toFixed(2)} horas decimais
+            <div className="mt-0.5 text-xs font-semibold tabular-nums opacity-80">
+              {additionDecimal.toFixed(2).replace(".", ",")} dec
             </div>
           )}
         </div>
-
-        <Separator />
-
-        {/* Details */}
-        <div className="grid grid-cols-2 gap-3">
-          <div 
-            onClick={() => handleCopy(formatTime(additionResult))}
-            className="flex flex-col justify-center p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl border border-emerald-100 dark:border-emerald-500/20 transition-all duration-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 hover:-translate-y-1 hover:shadow-md cursor-pointer group/item relative"
-            title="Clique para copiar"
-          >
-            <div className="absolute top-3 right-3 opacity-0 group-hover/item:opacity-100 transition-opacity">
-              <Copy className="h-4 w-4 text-emerald-500/50 stroke-[2.5]" />
-            </div>
-            <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Somado</span>
-            <div className="font-bold text-emerald-900 dark:text-white text-xl">
-              <AnimatedTime value={formatTime(additionResult)} />
-            </div>
-            {showDecimal && (
-              <div className="text-[10px] text-emerald-600 dark:text-emerald-500/70 mt-1 font-medium select-none">
-                {additionDecimal.toFixed(2)} dec
-              </div>
-            )}
+        <div
+          onClick={() => handleCopy(subtractionText)}
+          onKeyDown={(e) => copyOnKey(e, subtractionText)}
+          role="button"
+          tabIndex={0}
+          aria-label={`Total subtraído ${subtractionText}. Clique para copiar`}
+          className="cursor-pointer rounded-3xl bg-bad-soft px-[18px] py-3.5 text-bad transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bad"
+          title="Clique para copiar"
+        >
+          <span className="block text-sm font-semibold">Subtraído</span>
+          <div className="text-[28px] font-bold tracking-tight">
+            <AnimatedTime value={subtractionText} className="justify-start" />
           </div>
-          <div 
-            onClick={() => handleCopy(formatTime(subtractionResult))}
-            className="flex flex-col justify-center p-4 bg-rose-50 dark:bg-rose-500/10 rounded-xl border border-rose-100 dark:border-rose-500/20 transition-all duration-300 hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:-translate-y-1 hover:shadow-md cursor-pointer group/item relative"
-            title="Clique para copiar"
-          >
-            <div className="absolute top-3 right-3 opacity-0 group-hover/item:opacity-100 transition-opacity">
-              <Copy className="h-4 w-4 text-rose-500/50 stroke-[2.5]" />
+          {showDecimal && (
+            <div className="mt-0.5 text-xs font-semibold tabular-nums opacity-80">
+              {subtractionDecimal.toFixed(2).replace(".", ",")} dec
             </div>
-            <span className="text-rose-700 dark:text-rose-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Subtraído</span>
-            <div className="font-bold text-rose-900 dark:text-white text-xl">
-              <AnimatedTime value={formatTime(subtractionResult)} />
-            </div>
-            {showDecimal && (
-              <div className="text-[10px] text-rose-600 dark:text-rose-500/70 mt-1 font-medium select-none">
-                {subtractionDecimal.toFixed(2)} dec
-              </div>
-            )}
-          </div>
+          )}
         </div>
-
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

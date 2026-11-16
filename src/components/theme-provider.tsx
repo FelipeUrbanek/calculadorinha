@@ -1,28 +1,32 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 export type Theme = "dark" | "light" | "system";
-export type ColorTheme = "ruby" | "ocean" | "nature" | "royal" | "sunset";
+export type ColorTheme = "indigo" | "ruby" | "ocean" | "nature" | "royal" | "sunset";
 
 export const THEME_COLORS: Record<ColorTheme, { hsl: string; rgb: string }> = {
+  indigo: {
+    hsl: "243 80% 55%",
+    rgb: "59, 51, 232",
+  },
   ruby: {
-    hsl: "0 84.2% 60.2%",
-    rgb: "244, 63, 94",
+    hsl: "345 75% 48%",
+    rgb: "214, 31, 76",
   },
   ocean: {
-    hsl: "221.2 83.2% 53.3%",
-    rgb: "59, 130, 246",
+    hsl: "219 76% 48%",
+    rgb: "29, 95, 214",
   },
   nature: {
-    hsl: "142.1 70.6% 45.3%",
-    rgb: "34, 197, 94",
+    hsl: "163 93% 24%",
+    rgb: "4, 120, 87",
   },
   royal: {
-    hsl: "270.7 91% 65.1%",
-    rgb: "168, 85, 247",
+    hsl: "262 83% 58%",
+    rgb: "124, 58, 237",
   },
   sunset: {
-    hsl: "24.6 95% 53.1%",
-    rgb: "249, 115, 22",
+    hsl: "17 87% 46%",
+    rgb: "217, 72, 15",
   },
 };
 
@@ -44,7 +48,7 @@ type ThemeProviderState = {
 const initialState: ThemeProviderState = {
   theme: "system",
   setTheme: () => null,
-  colorTheme: "ruby",
+  colorTheme: "indigo",
   setColorTheme: () => null,
 };
 
@@ -53,7 +57,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 export function ThemeProvider({
   children,
   defaultTheme = "system",
-  defaultColorTheme = "ruby",
+  defaultColorTheme = "indigo",
   storageKey = "vite-ui-theme",
   colorStorageKey = "vite-ui-color-theme",
   ...props
@@ -90,6 +94,7 @@ export function ThemeProvider({
     const root = window.document.documentElement;
     // Remove past color themes
     root.classList.remove(
+      "theme-indigo",
       "theme-ruby",
       "theme-ocean",
       "theme-nature",
